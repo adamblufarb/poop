@@ -53,8 +53,8 @@
     .slider-end { font-size: 0.75rem; color: var(--subtext); font-weight: 500; }
 
     /* Size step */
-    .poop-size-display { text-align: center; margin-bottom: 20px; min-height: 110px; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; }
-    .poop-size-emoji { line-height: 1; transition: font-size 0.05s; }
+    .poop-size-display { text-align: center; margin-bottom: 20px; height: 220px; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; flex-shrink: 0; }
+    .poop-size-emoji { line-height: 1; transition: font-size 0.04s linear; }
     .poop-size-lbl { font-size: 2.4rem; font-weight: 900; margin-top: 8px; }
     .poop-size-num { font-size: 0.9rem; color: var(--subtext); font-weight: 600; margin-top: 2px; }
 
@@ -90,8 +90,8 @@
 
     /* Confetti */
     @keyframes confetti-fall {
-      0%   { transform: translateY(-60px) rotate(0deg) translateX(0); opacity: 1; }
-      100% { transform: translateY(110vh) rotate(600deg) translateX(var(--drift, 0px)); opacity: 0.2; }
+      0%   { transform: translateY(-80px) rotate(0deg) translateX(0); }
+      100% { transform: translateY(115vh) rotate(600deg) translateX(var(--drift, 0px)); }
     }
   </style>
 </head>
@@ -137,7 +137,7 @@
   }
 
   function poopFontSize(val) {
-    return (2 + (val - 1) / 4 * 4).toFixed(2);
+    return (2 + (val - 1) / 4 * 11).toFixed(2); // 2rem → 13rem
   }
 
   /* ── HTML ── */
@@ -162,16 +162,17 @@
 
     if (name === 'consistency') {
       const v = s.flow.consistency;
+      const rv = Math.round(v);
       body = `
         <div class="flow-step-emoji">${STEP_EMOJI.consistency}</div>
         <div class="flow-question">Consistency</div>
         <div class="flow-sub">What was the texture like?</div>
         <div class="slider-wrap">
           <div class="slider-display">
-            <div class="slider-lbl" id="sl-c-lbl">${CONSISTENCY[v]}</div>
-            <div class="slider-num" id="sl-c-num">${v} / 5</div>
+            <div class="slider-lbl" id="sl-c-lbl">${CONSISTENCY[rv]}</div>
+            <div class="slider-num" id="sl-c-num">${rv} / 5</div>
           </div>
-          <input type="range" min="1" max="5" step="1" value="${v}" id="sl-c" style="background:${sliderBg(v)}">
+          <input type="range" min="1" max="5" step="any" value="${v}" id="sl-c" style="background:${sliderBg(v)}">
           <div class="slider-ends"><span class="slider-end">Watery</span><span class="slider-end">Hard</span></div>
         </div>`;
 
@@ -193,16 +194,17 @@
 
     } else if (name === 'ease') {
       const v = s.flow.ease;
+      const rv = Math.round(v);
       body = `
         <div class="flow-step-emoji">${STEP_EMOJI.ease}</div>
         <div class="flow-question">Ease</div>
         <div class="flow-sub">How much effort did it take?</div>
         <div class="slider-wrap">
           <div class="slider-display">
-            <div class="slider-lbl" id="sl-e-lbl">${EASE[v]}</div>
-            <div class="slider-num" id="sl-e-num">${v} / 5</div>
+            <div class="slider-lbl" id="sl-e-lbl">${EASE[rv]}</div>
+            <div class="slider-num" id="sl-e-num">${rv} / 5</div>
           </div>
-          <input type="range" min="1" max="5" step="1" value="${v}" id="sl-e" style="background:${sliderBg(v)}">
+          <input type="range" min="1" max="5" step="any" value="${v}" id="sl-e" style="background:${sliderBg(v)}">
           <div class="slider-ends"><span class="slider-end">Easy</span><span class="slider-end">Difficult</span></div>
         </div>`;
 
@@ -336,22 +338,64 @@
     const wrap = document.createElement('div');
     wrap.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999;overflow:hidden;';
     document.body.appendChild(wrap);
-    for (let i = 0; i < 36; i++) {
+    for (let i = 0; i < 72; i++) {
       const el = document.createElement('div');
-      const drift = ((Math.random() - 0.5) * 300).toFixed(0) + 'px';
+      const drift = ((Math.random() - 0.5) * 160).toFixed(0) + 'px';
+      const dur = (2.0 + Math.random() * 1.8).toFixed(2);
       el.style.cssText = `
         position:absolute;
-        font-size:${(1.2 + Math.random() * 1.6).toFixed(1)}rem;
-        left:${(Math.random() * 100).toFixed(1)}%;
-        top:-60px;
+        font-size:${(1.2 + Math.random() * 1.8).toFixed(1)}rem;
+        left:${(Math.random() * 105 - 2).toFixed(1)}%;
+        top:-80px;
+        opacity:1;
         --drift:${drift};
-        animation:confetti-fall ${(1.8 + Math.random() * 2).toFixed(1)}s ease-in forwards;
-        animation-delay:${(Math.random() * 0.6).toFixed(2)}s;
+        animation:confetti-fall ${dur}s linear forwards;
+        animation-delay:${(Math.random() * 1.2).toFixed(2)}s;
       `;
       el.textContent = CONFETTI_EMOJIS[Math.floor(Math.random() * CONFETTI_EMOJIS.length)];
       wrap.appendChild(el);
     }
-    setTimeout(() => wrap.remove(), 5000);
+    setTimeout(() => wrap.remove(), 6000);
+  }
+
+  /* ── Flush sound ── */
+
+  function playFlushSound() {
+    try {
+      const ctx = new (window.AudioContext || window.webkitAudioContext)();
+      const dur = 2.2;
+
+      // White noise buffer
+      const buf = ctx.createBuffer(1, ctx.sampleRate * dur, ctx.sampleRate);
+      const data = buf.getChannelData(0);
+      for (let i = 0; i < data.length; i++) data[i] = Math.random() * 2 - 1;
+
+      const src = ctx.createBufferSource();
+      src.buffer = buf;
+
+      // Lowpass filter sweeping down (whoosh)
+      const lpf = ctx.createBiquadFilter();
+      lpf.type = 'lowpass';
+      lpf.frequency.setValueAtTime(1200, ctx.currentTime);
+      lpf.frequency.exponentialRampToValueAtTime(80, ctx.currentTime + dur);
+
+      // Bandpass to add the swirl character
+      const bpf = ctx.createBiquadFilter();
+      bpf.type = 'bandpass';
+      bpf.frequency.setValueAtTime(400, ctx.currentTime);
+      bpf.frequency.exponentialRampToValueAtTime(150, ctx.currentTime + dur);
+      bpf.Q.value = 0.8;
+
+      // Gain envelope: quick attack, long decay
+      const gain = ctx.createGain();
+      gain.gain.setValueAtTime(0, ctx.currentTime);
+      gain.gain.linearRampToValueAtTime(0.55, ctx.currentTime + 0.08);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + dur);
+
+      src.connect(lpf); lpf.connect(bpf); bpf.connect(gain); gain.connect(ctx.destination);
+      src.start();
+      src.stop(ctx.currentTime + dur);
+    } catch(e) {}
   }
 
   /* ── Bind ── */
@@ -379,22 +423,24 @@
     // Consistency slider
     const slC = document.getElementById('sl-c');
     if (slC) slC.addEventListener('input', () => {
-      s.flow.consistency = parseInt(slC.value);
+      s.flow.consistency = parseFloat(slC.value);
+      const r = Math.round(s.flow.consistency);
       const lEl = document.getElementById('sl-c-lbl');
       const nEl = document.getElementById('sl-c-num');
-      if (lEl) lEl.textContent = CONSISTENCY[s.flow.consistency];
-      if (nEl) nEl.textContent = s.flow.consistency + ' / 5';
+      if (lEl) lEl.textContent = CONSISTENCY[r];
+      if (nEl) nEl.textContent = r + ' / 5';
       slC.style.background = sliderBg(s.flow.consistency);
     });
 
     // Ease slider
     const slE = document.getElementById('sl-e');
     if (slE) slE.addEventListener('input', () => {
-      s.flow.ease = parseInt(slE.value);
+      s.flow.ease = parseFloat(slE.value);
+      const r = Math.round(s.flow.ease);
       const lEl = document.getElementById('sl-e-lbl');
       const nEl = document.getElementById('sl-e-num');
-      if (lEl) lEl.textContent = EASE[s.flow.ease];
-      if (nEl) nEl.textContent = s.flow.ease + ' / 5';
+      if (lEl) lEl.textContent = EASE[r];
+      if (nEl) nEl.textContent = r + ' / 5';
       slE.style.background = sliderBg(s.flow.ease);
     });
 
@@ -422,9 +468,9 @@
     const entry = {
       id: Date.now().toString(),
       recorded_at: new Date().toISOString(),
-      consistency: s.flow.consistency,
+      consistency: Math.round(s.flow.consistency),
       color: s.flow.color,
-      ease: s.flow.ease,
+      ease: Math.round(s.flow.ease),
       size: Math.round(s.flow.size),
     };
     s.entries.push(entry);
@@ -432,6 +478,7 @@
     s.tab = 'history';
     render();
     showConfetti();
+    playFlushSound();
     await db.from('poop_entries').insert(entry);
   }
 
