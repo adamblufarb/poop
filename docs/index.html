@@ -10,27 +10,18 @@
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
     :root {
-      --bg: #fffbf4;
-      --card: #ffffff;
-      --card2: #fef9f0;
-      --accent: #f97316;
-      --accent2: #fbbf24;
-      --text: #1c1917;
-      --subtext: #a8a29e;
-      --border: #e7e5e4;
-      --radius: 20px;
-      --shadow: 0 2px 12px rgba(0,0,0,0.07);
-      --shadow-lg: 0 4px 24px rgba(0,0,0,0.10);
+      --bg: #fffbf4; --card: #ffffff; --card2: #fef9f0;
+      --accent: #f97316; --accent2: #fbbf24;
+      --text: #1c1917; --subtext: #a8a29e; --border: #e7e5e4;
+      --radius: 20px; --shadow: 0 2px 12px rgba(0,0,0,0.07);
     }
     body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; min-height: 100vh; max-width: 480px; margin: 0 auto; }
 
-    /* Tab bar */
     .tab-bar { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 480px; background: #fff; border-top: 1px solid var(--border); display: flex; z-index: 100; padding-bottom: env(safe-area-inset-bottom); box-shadow: 0 -2px 12px rgba(0,0,0,0.05); }
     .tab-btn { flex: 1; padding: 12px 8px; background: none; border: none; color: var(--subtext); font-size: 0.72rem; font-weight: 600; font-family: inherit; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 3px; transition: color 0.15s; }
     .tab-icon { font-size: 1.4rem; line-height: 1; }
     .tab-btn.active { color: var(--accent); }
 
-    /* Content */
     .content { padding: 0 20px calc(88px + env(safe-area-inset-bottom)) 20px; }
 
     /* Home */
@@ -38,43 +29,46 @@
     .home-emoji { font-size: 5rem; line-height: 1; margin-bottom: 12px; filter: drop-shadow(0 4px 8px rgba(249,115,22,0.25)); }
     .home-title { font-size: 2.2rem; font-weight: 900; letter-spacing: -1px; background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
     .home-sub { color: var(--subtext); font-size: 0.9rem; margin-top: 6px; }
-    .btn-log { width: 100%; padding: 18px; background: linear-gradient(135deg, var(--accent), var(--accent2)); color: #fff; font-weight: 800; font-size: 1.1rem; border: none; border-radius: var(--radius); cursor: pointer; font-family: inherit; box-shadow: 0 4px 16px rgba(249,115,22,0.35); transition: transform 0.1s, box-shadow 0.1s; touch-action: manipulation; margin-top: 8px; }
-    .btn-log:active { transform: scale(0.97); box-shadow: 0 2px 8px rgba(249,115,22,0.25); }
+    .btn-log { width: 100%; padding: 18px; background: linear-gradient(135deg, var(--accent), var(--accent2)); color: #fff; font-weight: 800; font-size: 1.1rem; border: none; border-radius: var(--radius); cursor: pointer; font-family: inherit; box-shadow: 0 4px 16px rgba(249,115,22,0.35); transition: transform 0.1s; touch-action: manipulation; margin-top: 8px; }
+    .btn-log:active { transform: scale(0.97); }
 
     /* Flow */
     .flow-wrap { padding-top: 32px; }
     .flow-progress { display: flex; gap: 6px; margin-bottom: 40px; }
     .flow-seg { flex: 1; height: 6px; border-radius: 3px; background: var(--border); transition: background 0.3s; }
     .flow-seg.done { background: linear-gradient(90deg, var(--accent), var(--accent2)); }
-
     .flow-step-emoji { font-size: 2.8rem; margin-bottom: 10px; line-height: 1; }
     .flow-question { font-size: 1.7rem; font-weight: 900; letter-spacing: -0.5px; margin-bottom: 6px; }
     .flow-sub { color: var(--subtext); font-size: 0.9rem; margin-bottom: 36px; }
 
-    /* Slider */
+    /* Slider — label-first hierarchy */
     .slider-wrap { margin-bottom: 36px; }
-    .slider-display { display: flex; flex-direction: column; align-items: center; margin-bottom: 24px; }
-    .slider-bubble { width: 72px; height: 72px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), var(--accent2)); display: flex; align-items: center; justify-content: center; font-size: 1.8rem; font-weight: 900; color: #fff; box-shadow: 0 4px 16px rgba(249,115,22,0.35); margin-bottom: 8px; }
-    .slider-lbl { font-size: 1rem; font-weight: 700; color: var(--text); min-height: 22px; }
+    .slider-display { text-align: center; margin-bottom: 24px; }
+    .slider-lbl { font-size: 2.4rem; font-weight: 900; color: var(--text); line-height: 1; }
+    .slider-num { font-size: 0.9rem; color: var(--subtext); font-weight: 600; margin-top: 4px; }
     input[type=range] { -webkit-appearance: none; appearance: none; width: 100%; height: 8px; border-radius: 4px; outline: none; cursor: pointer; }
-    input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 32px; height: 32px; border-radius: 50%; background: #fff; border: 3px solid var(--accent); cursor: pointer; box-shadow: 0 2px 10px rgba(249,115,22,0.4); transition: transform 0.1s; }
-    input[type=range]::-webkit-slider-thumb:active { transform: scale(1.15); }
-    input[type=range]::-moz-range-thumb { width: 32px; height: 32px; border-radius: 50%; background: #fff; border: 3px solid var(--accent); cursor: pointer; box-shadow: 0 2px 10px rgba(249,115,22,0.4); }
+    input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 32px; height: 32px; border-radius: 50%; background: #fff; border: 3px solid var(--accent); cursor: pointer; box-shadow: 0 2px 10px rgba(249,115,22,0.4); }
+    input[type=range]::-moz-range-thumb { width: 32px; height: 32px; border-radius: 50%; background: #fff; border: 3px solid var(--accent); cursor: pointer; border: none; }
     .slider-ends { display: flex; justify-content: space-between; margin-top: 10px; }
     .slider-end { font-size: 0.75rem; color: var(--subtext); font-weight: 500; }
 
-    /* Color picker */
-    .color-grid { display: flex; gap: 8px; justify-content: space-between; margin-bottom: 36px; }
-    .color-item { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 8px; }
-    .color-btn { width: 100%; aspect-ratio: 1; border-radius: 50%; border: 4px solid transparent; cursor: pointer; transition: transform 0.15s, border-color 0.15s, box-shadow 0.15s; touch-action: manipulation; box-shadow: var(--shadow); }
-    .color-btn.selected { border-color: var(--accent); transform: scale(1.12); box-shadow: 0 0 0 3px rgba(249,115,22,0.25), var(--shadow-lg); }
-    .color-btn:active { transform: scale(0.9); }
-    .color-name { font-size: 0.68rem; color: var(--subtext); text-align: center; font-weight: 600; }
+    /* Size step */
+    .poop-size-display { text-align: center; margin-bottom: 20px; min-height: 110px; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; }
+    .poop-size-emoji { line-height: 1; transition: font-size 0.05s; }
+    .poop-size-lbl { font-size: 2.4rem; font-weight: 900; margin-top: 8px; }
+    .poop-size-num { font-size: 0.9rem; color: var(--subtext); font-weight: 600; margin-top: 2px; }
+
+    /* 2D Color picker */
+    .color-picker-wrap { position: relative; width: 100%; margin-bottom: 12px; border-radius: 20px; overflow: hidden; }
+    .color-picker-wrap canvas { width: 100%; aspect-ratio: 1; display: block; touch-action: none; cursor: crosshair; }
+    .color-cursor { position: absolute; width: 28px; height: 28px; border-radius: 50%; border: 3px solid #fff; transform: translate(-50%, -50%); pointer-events: none; box-shadow: 0 2px 10px rgba(0,0,0,0.4); }
+    .color-preview-row { display: flex; align-items: center; gap: 12px; margin-bottom: 32px; }
+    .color-preview-dot { width: 36px; height: 36px; border-radius: 50%; border: 3px solid #fff; box-shadow: var(--shadow); flex-shrink: 0; }
+    .color-preview-label { font-size: 0.85rem; color: var(--subtext); font-weight: 500; }
 
     /* Buttons */
-    .btn-next { width: 100%; padding: 17px; background: linear-gradient(135deg, var(--accent), var(--accent2)); color: #fff; font-weight: 800; font-size: 1.05rem; border: none; border-radius: var(--radius); cursor: pointer; font-family: inherit; box-shadow: 0 4px 16px rgba(249,115,22,0.30); transition: transform 0.1s, box-shadow 0.1s; touch-action: manipulation; }
-    .btn-next:disabled { opacity: 0.3; cursor: not-allowed; box-shadow: none; }
-    .btn-next:not(:disabled):active { transform: scale(0.98); box-shadow: 0 2px 8px rgba(249,115,22,0.2); }
+    .btn-next { width: 100%; padding: 17px; background: linear-gradient(135deg, var(--accent), var(--accent2)); color: #fff; font-weight: 800; font-size: 1.05rem; border: none; border-radius: var(--radius); cursor: pointer; font-family: inherit; box-shadow: 0 4px 16px rgba(249,115,22,0.30); transition: transform 0.1s; touch-action: manipulation; }
+    .btn-next:active { transform: scale(0.98); }
     .btn-ghost { width: 100%; padding: 14px; background: none; color: var(--subtext); font-size: 0.9rem; font-weight: 600; border: none; cursor: pointer; font-family: inherit; margin-top: 8px; }
 
     /* History */
@@ -83,8 +77,6 @@
     .history-count { font-size: 0.85rem; color: var(--subtext); font-weight: 600; }
     .history-empty { text-align: center; padding: 60px 20px; color: var(--subtext); }
     .history-empty-emoji { font-size: 3.5rem; margin-bottom: 12px; }
-    .history-empty-text { font-size: 0.95rem; line-height: 1.5; }
-
     .entry-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-bottom: 10px; box-shadow: var(--shadow); }
     .entry-time { font-size: 0.78rem; color: var(--subtext); margin-bottom: 12px; font-weight: 600; }
     .entry-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
@@ -95,6 +87,12 @@
 
     /* Loading */
     .loading { text-align: center; padding: 80px 20px; color: var(--subtext); font-size: 0.9rem; }
+
+    /* Confetti */
+    @keyframes confetti-fall {
+      0%   { transform: translateY(-60px) rotate(0deg) translateX(0); opacity: 1; }
+      100% { transform: translateY(110vh) rotate(600deg) translateX(var(--drift, 0px)); opacity: 0.2; }
+    }
   </style>
 </head>
 <body>
@@ -113,19 +111,19 @@
   const CONSISTENCY = { 1:'Watery', 2:'Loose', 3:'Smooth', 4:'Firm', 5:'Hard' };
   const EASE        = { 1:'Easy',   2:'Mild',  3:'Moderate', 4:'Tough', 5:'Difficult' };
   const SIZE        = { 1:'Tiny',   2:'Small', 3:'Medium',   4:'Large', 5:'Huge' };
-  const COLORS = [
-    { id:'brown',  label:'Brown',  hex:'#7B3F00' },
-    { id:'yellow', label:'Yellow', hex:'#F5C518' },
-    { id:'black',  label:'Black',  hex:'#3a3a3a' },
-    { id:'red',    label:'Red',    hex:'#DC143C' },
-    { id:'green',  label:'Green',  hex:'#2E7D32' },
-  ];
-  const STEPS = ['consistency','color','ease','size'];
-  const STEP_EMOJI = { consistency:'💧', color:'🎨', ease:'😌', size:'📏' };
+  const STEPS       = ['consistency','color','ease','size'];
+  const STEP_EMOJI  = { consistency:'💧', color:'🎨', ease:'😌', size:'💩' };
+
+  const CONFETTI_EMOJIS = ['🚽','💩','🧻','🪠','💨'];
 
   const s = { tab:'log', entries:[], loading:true, flow:null };
 
-  function colorHex(id) { return COLORS.find(c=>c.id===id)?.hex||'#888'; }
+  function colorHex(c) {
+    if (!c) return '#888';
+    if (c.startsWith('#')) return c;
+    const map = { brown:'#7B3F00', yellow:'#F5C518', black:'#3a3a3a', red:'#DC143C', green:'#2E7D32' };
+    return map[c] || '#888';
+  }
 
   function fmtDate(iso) {
     const d = new Date(iso);
@@ -134,11 +132,15 @@
   }
 
   function sliderBg(val) {
-    const pct = (val - 1) / 4 * 100;
+    const pct = Math.max(0, Math.min(100, (val - 1) / 4 * 100));
     return `linear-gradient(to right, #f97316 ${pct}%, #e7e5e4 ${pct}%)`;
   }
 
-  /* ── Render ── */
+  function poopFontSize(val) {
+    return (2 + (val - 1) / 4 * 4).toFixed(2);
+  }
+
+  /* ── HTML ── */
 
   function htmlLogTab() {
     if (s.loading) return `<div class="loading">Loading…</div>`;
@@ -166,25 +168,29 @@
         <div class="flow-sub">What was the texture like?</div>
         <div class="slider-wrap">
           <div class="slider-display">
-            <div class="slider-bubble" id="sl-c-val">${v}</div>
             <div class="slider-lbl" id="sl-c-lbl">${CONSISTENCY[v]}</div>
+            <div class="slider-num" id="sl-c-num">${v} / 5</div>
           </div>
-          <input type="range" min="1" max="5" value="${v}" id="sl-c" style="background:${sliderBg(v)}">
+          <input type="range" min="1" max="5" step="1" value="${v}" id="sl-c" style="background:${sliderBg(v)}">
           <div class="slider-ends"><span class="slider-end">Watery</span><span class="slider-end">Hard</span></div>
         </div>`;
+
     } else if (name === 'color') {
-      const sel = s.flow.color;
+      const hex = s.flow.color || '#7B3F00';
+      const pos = s.flow.colorPos || { x: 0.5, y: 0.5 };
       body = `
         <div class="flow-step-emoji">${STEP_EMOJI.color}</div>
         <div class="flow-question">Color</div>
-        <div class="flow-sub">Pick the closest match</div>
-        <div class="color-grid">
-          ${COLORS.map(c=>`
-            <div class="color-item">
-              <button class="color-btn${sel===c.id?' selected':''}" data-color="${c.id}" style="background:${c.hex}"></button>
-              <span class="color-name">${c.label}</span>
-            </div>`).join('')}
+        <div class="flow-sub">Drag to find the perfect match</div>
+        <div class="color-picker-wrap" id="cp-wrap">
+          <canvas id="color-canvas" width="200" height="200"></canvas>
+          <div class="color-cursor" id="color-cursor" style="left:${pos.x*100}%;top:${pos.y*100}%;background:${hex}"></div>
+        </div>
+        <div class="color-preview-row">
+          <div class="color-preview-dot" id="color-preview-dot" style="background:${hex}"></div>
+          <div class="color-preview-label">Selected color</div>
         </div>`;
+
     } else if (name === 'ease') {
       const v = s.flow.ease;
       body = `
@@ -193,24 +199,27 @@
         <div class="flow-sub">How much effort did it take?</div>
         <div class="slider-wrap">
           <div class="slider-display">
-            <div class="slider-bubble" id="sl-e-val">${v}</div>
             <div class="slider-lbl" id="sl-e-lbl">${EASE[v]}</div>
+            <div class="slider-num" id="sl-e-num">${v} / 5</div>
           </div>
-          <input type="range" min="1" max="5" value="${v}" id="sl-e" style="background:${sliderBg(v)}">
+          <input type="range" min="1" max="5" step="1" value="${v}" id="sl-e" style="background:${sliderBg(v)}">
           <div class="slider-ends"><span class="slider-end">Easy</span><span class="slider-end">Difficult</span></div>
         </div>`;
+
     } else if (name === 'size') {
       const v = s.flow.size;
+      const fs = poopFontSize(v);
+      const rounded = Math.round(v);
       body = `
-        <div class="flow-step-emoji">${STEP_EMOJI.size}</div>
         <div class="flow-question">Size</div>
-        <div class="flow-sub">Estimate the volume</div>
+        <div class="flow-sub">How big was it?</div>
         <div class="slider-wrap">
-          <div class="slider-display">
-            <div class="slider-bubble" id="sl-s-val">${v}</div>
-            <div class="slider-lbl" id="sl-s-lbl">${SIZE[v]}</div>
+          <div class="poop-size-display">
+            <div class="poop-size-emoji" id="poop-emoji" style="font-size:${fs}rem">💩</div>
+            <div class="poop-size-lbl" id="sl-s-lbl">${SIZE[rounded]}</div>
+            <div class="poop-size-num" id="sl-s-num">${rounded} / 5</div>
           </div>
-          <input type="range" min="1" max="5" value="${v}" id="sl-s" style="background:${sliderBg(v)}">
+          <input type="range" min="1" max="5" step="any" value="${v}" id="sl-s" style="background:${sliderBg(v)}">
           <div class="slider-ends"><span class="slider-end">Tiny</span><span class="slider-end">Huge</span></div>
         </div>`;
     }
@@ -227,28 +236,31 @@
 
   function htmlHistoryTab() {
     if (s.loading) return `<div class="loading">Loading…</div>`;
-    const sorted = s.entries.slice().sort((a,b)=>b.recorded_at.localeCompare(a.recorded_at));
+    const sorted = s.entries.slice().sort((a,b) => b.recorded_at.localeCompare(a.recorded_at));
     if (!sorted.length) return `
       <div class="history-header"><span class="history-title">History</span></div>
       <div class="history-empty">
         <div class="history-empty-emoji">🔍</div>
-        <div class="history-empty-text">No entries yet.<br>Log your first one!</div>
+        <div>No entries yet.<br>Log your first one!</div>
       </div>`;
     return `
       <div class="history-header">
         <span class="history-title">History</span>
         <span class="history-count">${sorted.length} entr${sorted.length===1?'y':'ies'}</span>
       </div>
-      ${sorted.map(e=>`
+      ${sorted.map(e => {
+        const sz = Math.round(e.size) || e.size;
+        return `
         <div class="entry-card">
           <div class="entry-time">${fmtDate(e.recorded_at)}</div>
           <div class="entry-stats">
-            <div class="entry-stat"><div class="stat-label">Consistency</div><div class="stat-value">${CONSISTENCY[e.consistency]}</div></div>
+            <div class="entry-stat"><div class="stat-label">Consistency</div><div class="stat-value">${CONSISTENCY[e.consistency]||e.consistency}</div></div>
             <div class="entry-stat"><div class="stat-label">Color</div><div class="stat-value"><div class="color-dot" style="background:${colorHex(e.color)}"></div></div></div>
-            <div class="entry-stat"><div class="stat-label">Ease</div><div class="stat-value">${EASE[e.ease]}</div></div>
-            <div class="entry-stat"><div class="stat-label">Size</div><div class="stat-value">${SIZE[e.size]}</div></div>
+            <div class="entry-stat"><div class="stat-label">Ease</div><div class="stat-value">${EASE[e.ease]||e.ease}</div></div>
+            <div class="entry-stat"><div class="stat-label">Size</div><div class="stat-value">${SIZE[sz]||sz}</div></div>
           </div>
-        </div>`).join('')}`;
+        </div>`;
+      }).join('')}`;
   }
 
   function render() {
@@ -259,27 +271,97 @@
     bind();
   }
 
-  /* ── Bind ── */
+  /* ── Color picker canvas ── */
 
-  function bindSlider(id, key, labels, valId, lblId) {
-    const el = document.getElementById(id);
-    if (!el) return;
-    el.addEventListener('input', () => {
-      s.flow[key] = parseInt(el.value);
-      const vEl = document.getElementById(valId);
-      const lEl = document.getElementById(lblId);
-      if (vEl) vEl.textContent = s.flow[key];
-      if (lEl) lEl.textContent = labels[s.flow[key]];
-      el.style.background = sliderBg(s.flow[key]);
-    });
+  function initColorPicker() {
+    const canvas = document.getElementById('color-canvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const W = canvas.width, H = canvas.height;
+
+    // 5 color control points: center=brown, 4 corners
+    const pts = [
+      { x: W/2, y: H/2, r:123, g:63,  b:0   },  // center: brown
+      { x: 0,   y: 0,   r:245, g:197, b:24  },  // TL: yellow
+      { x: W,   y: 0,   r:220, g:20,  b:60  },  // TR: red
+      { x: 0,   y: H,   r:46,  g:125, b:50  },  // BL: green
+      { x: W,   y: H,   r:58,  g:58,  b:58  },  // BR: black
+    ];
+
+    // Inverse-distance weighted blending
+    const img = ctx.createImageData(W, H);
+    for (let y = 0; y < H; y++) {
+      for (let x = 0; x < W; x++) {
+        let rW=0, gW=0, bW=0, wT=0;
+        for (const p of pts) {
+          const dx=x-p.x, dy=y-p.y, d2=dx*dx+dy*dy;
+          const w = d2 < 1 ? 1e10 : 1/d2;
+          rW+=p.r*w; gW+=p.g*w; bW+=p.b*w; wT+=w;
+        }
+        const i=(y*W+x)*4;
+        img.data[i]  =rW/wT; img.data[i+1]=gW/wT;
+        img.data[i+2]=bW/wT; img.data[i+3]=255;
+      }
+    }
+    ctx.putImageData(img, 0, 0);
+
+    function pick(e) {
+      e.preventDefault();
+      const rect = canvas.getBoundingClientRect();
+      const touch = e.touches ? e.touches[0] : e;
+      const nx = Math.max(0, Math.min(1, (touch.clientX - rect.left) / rect.width));
+      const ny = Math.max(0, Math.min(1, (touch.clientY - rect.top) / rect.height));
+      const px = Math.round(nx * (W-1));
+      const py = Math.round(ny * (H-1));
+      const d = ctx.getImageData(px, py, 1, 1).data;
+      const hex = '#' + [d[0],d[1],d[2]].map(v=>v.toString(16).padStart(2,'0')).join('');
+      s.flow.color = hex;
+      s.flow.colorPos = { x: nx, y: ny };
+      // Update cursor + preview without re-render
+      const cursor = document.getElementById('color-cursor');
+      const preview = document.getElementById('color-preview-dot');
+      if (cursor) { cursor.style.left=(nx*100)+'%'; cursor.style.top=(ny*100)+'%'; cursor.style.background=hex; }
+      if (preview) preview.style.background = hex;
+    }
+
+    canvas.addEventListener('mousedown', pick);
+    canvas.addEventListener('mousemove', e => { if (e.buttons) pick(e); });
+    canvas.addEventListener('touchstart', pick, { passive:false });
+    canvas.addEventListener('touchmove', pick, { passive:false });
   }
+
+  /* ── Confetti ── */
+
+  function showConfetti() {
+    const wrap = document.createElement('div');
+    wrap.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999;overflow:hidden;';
+    document.body.appendChild(wrap);
+    for (let i = 0; i < 36; i++) {
+      const el = document.createElement('div');
+      const drift = ((Math.random() - 0.5) * 300).toFixed(0) + 'px';
+      el.style.cssText = `
+        position:absolute;
+        font-size:${(1.2 + Math.random() * 1.6).toFixed(1)}rem;
+        left:${(Math.random() * 100).toFixed(1)}%;
+        top:-60px;
+        --drift:${drift};
+        animation:confetti-fall ${(1.8 + Math.random() * 2).toFixed(1)}s ease-in forwards;
+        animation-delay:${(Math.random() * 0.6).toFixed(2)}s;
+      `;
+      el.textContent = CONFETTI_EMOJIS[Math.floor(Math.random() * CONFETTI_EMOJIS.length)];
+      wrap.appendChild(el);
+    }
+    setTimeout(() => wrap.remove(), 5000);
+  }
+
+  /* ── Bind ── */
 
   function bind() {
     document.querySelectorAll('.tab-btn').forEach(b =>
       b.addEventListener('click', () => { s.tab = b.dataset.tab; render(); }));
 
     document.getElementById('start-log')?.addEventListener('click', () => {
-      s.flow = { step:0, consistency:3, color:'brown', ease:3, size:3 };
+      s.flow = { step:0, consistency:3, color:'#7B3F00', colorPos:{x:0.5,y:0.5}, ease:3, size:3 };
       render();
     });
 
@@ -288,21 +370,50 @@
       else { s.flow = null; render(); }
     });
 
-    bindSlider('sl-c', 'consistency', CONSISTENCY, 'sl-c-val', 'sl-c-lbl');
-    bindSlider('sl-e', 'ease',        EASE,        'sl-e-val', 'sl-e-lbl');
-    bindSlider('sl-s', 'size',        SIZE,        'sl-s-val', 'sl-s-lbl');
-
-    document.querySelectorAll('[data-color]').forEach(b => b.addEventListener('click', () => {
-      s.flow.color = b.dataset.color;
-      document.querySelectorAll('[data-color]').forEach(x =>
-        x.classList.toggle('selected', x.dataset.color === s.flow.color));
-    }));
-
     document.getElementById('btn-next')?.addEventListener('click', () => {
       if (!s.flow) return;
       if (s.flow.step < STEPS.length - 1) { s.flow.step++; render(); }
       else saveEntry();
     });
+
+    // Consistency slider
+    const slC = document.getElementById('sl-c');
+    if (slC) slC.addEventListener('input', () => {
+      s.flow.consistency = parseInt(slC.value);
+      const lEl = document.getElementById('sl-c-lbl');
+      const nEl = document.getElementById('sl-c-num');
+      if (lEl) lEl.textContent = CONSISTENCY[s.flow.consistency];
+      if (nEl) nEl.textContent = s.flow.consistency + ' / 5';
+      slC.style.background = sliderBg(s.flow.consistency);
+    });
+
+    // Ease slider
+    const slE = document.getElementById('sl-e');
+    if (slE) slE.addEventListener('input', () => {
+      s.flow.ease = parseInt(slE.value);
+      const lEl = document.getElementById('sl-e-lbl');
+      const nEl = document.getElementById('sl-e-num');
+      if (lEl) lEl.textContent = EASE[s.flow.ease];
+      if (nEl) nEl.textContent = s.flow.ease + ' / 5';
+      slE.style.background = sliderBg(s.flow.ease);
+    });
+
+    // Size slider — continuous
+    const slS = document.getElementById('sl-s');
+    if (slS) slS.addEventListener('input', () => {
+      s.flow.size = parseFloat(slS.value);
+      const rounded = Math.round(s.flow.size);
+      const poop = document.getElementById('poop-emoji');
+      const lEl = document.getElementById('sl-s-lbl');
+      const nEl = document.getElementById('sl-s-num');
+      if (poop) poop.style.fontSize = poopFontSize(s.flow.size) + 'rem';
+      if (lEl) lEl.textContent = SIZE[rounded];
+      if (nEl) nEl.textContent = rounded + ' / 5';
+      slS.style.background = sliderBg(s.flow.size);
+    });
+
+    // Color picker init (after DOM is ready)
+    if (document.getElementById('color-canvas')) initColorPicker();
   }
 
   /* ── Data ── */
@@ -314,12 +425,13 @@
       consistency: s.flow.consistency,
       color: s.flow.color,
       ease: s.flow.ease,
-      size: s.flow.size,
+      size: Math.round(s.flow.size),
     };
     s.entries.push(entry);
     s.flow = null;
     s.tab = 'history';
     render();
+    showConfetti();
     await db.from('poop_entries').insert(entry);
   }
 
