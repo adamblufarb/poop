@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0d0d14">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>💩 Tracker</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+    :root {
+      --bg: #0d0d14; --card: #16161f; --card2: #1e1e2a;
+      --accent: #f59e0b; --text: #f0f0f0; --subtext: #777;
+      --border: #252530; --radius: 16px;
+    }
+    body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; min-height: 100vh; max-width: 480px; margin: 0 auto; }
+
+    /* Tab bar */
+    .tab-bar { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 480px; background: var(--card); border-top: 1px solid var(--border); display: flex; z-index: 100; padding-bottom: env(safe-area-inset-bottom); }
+    .tab-btn { flex: 1; padding: 12px 8px; background: none; border: none; color: var(--subtext); font-size: 0.72rem; font-family: inherit; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 3px; transition: color 0.15s; }
+    .tab-icon { font-size: 1.4rem; line-height: 1; }
+    .tab-btn.active { color: var(--accent); }
+
+    /* Content */
+    .content { padding: 0 20px calc(80px + env(safe-area-inset-bottom)) 20px; }
+
+    /* Header */
+    .app-header { padding: 52px 0 28px; text-align: center; }
+    .app-emoji { font-size: 3.8rem; line-height: 1; margin-bottom: 10px; }
+    .app-title { font-size: 1.9rem; font-weight: 900; letter-spacing: -0.5px; }
+    .app-sub { color: var(--subtext); font-size: 0.88rem; margin-top: 6px; }
+
+    /* Log start */
+    .log-start { display: flex; flex-direction: column; align-items: center; padding-top: 20px; }
+    .btn-log { width: 100%; padding: 18px; background: var(--accent); color: #0d0d14; font-weight: 800; font-size: 1.1rem; border: none; border-radius: var(--radius); cursor: pointer; font-family: inherit; transition: opacity 0.15s, transform 0.1s; touch-action: manipulation; }
+    .btn-log:active { transform: scale(0.97); opacity: 0.88; }
+
+    /* Flow */
+    .flow-wrap { padding-top: 28px; }
+    .flow-progress { display: flex; gap: 6px; margin-bottom: 36px; }
+    .flow-seg { flex: 1; height: 4px; border-radius: 2px; background: var(--border); transition: background 0.3s; }
+    .flow-seg.done { background: var(--accent); }
+    .flow-question { font-size: 1.6rem; font-weight: 800; margin-bottom: 6px; }
+    .flow-sub { color: var(--subtext); font-size: 0.9rem; margin-bottom: 36px; }
+
+    /* Slider */
+    .slider-wrap { margin-bottom: 32px; }
+    .slider-big { text-align: center; font-size: 3rem; font-weight: 900; color: var(--accent); line-height: 1; }
+    .slider-lbl { text-align: center; font-size: 1rem; color: var(--text); margin: 6px 0 20px; min-height: 22px; }
+    input[type=range] { -webkit-appearance: none; appearance: none; width: 100%; height: 6px; border-radius: 3px; outline: none; cursor: pointer; }
+    input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 30px; height: 30px; border-radius: 50%; background: var(--accent); cursor: pointer; box-shadow: 0 2px 12px rgba(245,158,11,0.5); }
+    input[type=range]::-moz-range-thumb { width: 30px; height: 30px; border-radius: 50%; background: var(--accent); cursor: pointer; border: none; box-shadow: 0 2px 12px rgba(245,158,11,0.5); }
+    .slider-ends { display: flex; justify-content: space-between; margin-top: 10px; }
+    .slider-end { font-size: 0.75rem; color: var(--subtext); }
+
+    /* Color picker */
+    .color-grid { display: flex; gap: 10px; justify-content: space-between; margin-bottom: 32px; }
+    .color-item { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+    .color-btn { width: 52px; height: 52px; border-radius: 50%; border: 3px solid transparent; cursor: pointer; transition: transform 0.15s, border-color 0.15s, box-shadow 0.15s; touch-action: manipulation; flex-shrink: 0; }
+    .color-btn.selected { border-color: white; transform: scale(1.12); box-shadow: 0 0 0 2px var(--accent); }
+    .color-btn:active { transform: scale(0.9); }
+    .color-name { font-size: 0.68rem; color: var(--subtext); text-align: center; }
+
+    /* Buttons */
+    .btn-next { width: 100%; padding: 16px; background: var(--accent); color: #0d0d14; font-weight: 800; font-size: 1rem; border: none; border-radius: var(--radius); cursor: pointer; font-family: inherit; transition: opacity 0.15s, transform 0.1s; touch-action: manipulation; }
+    .btn-next:disabled { opacity: 0.25; cursor: not-allowed; }
+    .btn-next:not(:disabled):active { transform: scale(0.98); opacity: 0.9; }
+    .btn-ghost { width: 100%; padding: 14px; background: none; color: var(--subtext); font-size: 0.9rem; border: none; cursor: pointer; font-family: inherit; margin-top: 8px; }
+
+    /* History */
+    .history-header { padding: 40px 0 20px; display: flex; align-items: baseline; gap: 10px; }
+    .history-title { font-size: 1.4rem; font-weight: 800; }
+    .history-count { font-size: 0.85rem; color: var(--subtext); }
+    .history-empty { text-align: center; padding: 60px 20px; color: var(--subtext); }
+    .history-empty-emoji { font-size: 3rem; margin-bottom: 12px; }
+    .entry-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 16px; margin-bottom: 10px; }
+    .entry-time { font-size: 0.78rem; color: var(--subtext); margin-bottom: 12px; }
+    .entry-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+    .entry-stat { background: var(--card2); border-radius: 10px; padding: 8px 4px; text-align: center; }
+    .stat-label { font-size: 0.58rem; color: var(--subtext); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 5px; }
+    .stat-value { font-size: 0.78rem; font-weight: 700; line-height: 1.2; }
+    .color-dot { width: 18px; height: 18px; border-radius: 50%; margin: 0 auto; border: 1px solid rgba(255,255,255,0.12); }
+
+    /* Loading */
+    .loading { text-align: center; padding: 80px 20px; color: var(--subtext); font-size: 0.9rem; }
+  </style>
+</head>
+<body>
+<div class="content" id="app"></div>
+<nav class="tab-bar">
+  <button class="tab-btn" data-tab="log"><span class="tab-icon">💩</span><span>Log</span></button>
+  <button class="tab-btn" data-tab="history"><span class="tab-icon">📋</span><span>History</span></button>
+</nav>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  const SUPABASE_URL = 'https://dhdfyycqmepzregkkymy.supabase.co';
+  const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRoZGZ5eWNxbWVwenJlZ2treW15Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY4NzQ3NTMsImV4cCI6MjA5MjQ1MDc1M30.VXECtDHeixLPvPv3WdSarQ_ZwWvtO4OrxIqVBDC4Q-A';
+  const db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+  const CONSISTENCY = { 1:'Watery', 2:'Loose', 3:'Smooth', 4:'Firm', 5:'Hard' };
+  const EASE        = { 1:'Easy',   2:'Mild',  3:'Moderate', 4:'Tough', 5:'Difficult' };
+  const SIZE        = { 1:'Tiny',   2:'Small', 3:'Medium',   4:'Large', 5:'Huge' };
+  const COLORS = [
+    { id:'brown',  label:'Brown',  hex:'#7B3F00' },
+    { id:'yellow', label:'Yellow', hex:'#F5C518' },
+    { id:'black',  label:'Black',  hex:'#2a2a2a' },
+    { id:'red',    label:'Red',    hex:'#DC143C' },
+    { id:'green',  label:'Green',  hex:'#2E7D32' },
+  ];
+  const STEPS = ['consistency','color','ease','size'];
+
+  const s = {
+    tab: 'log',
+    entries: [],
+    loading: true,
+    flow: null,
+  };
+
+  function colorHex(id) { return COLORS.find(c=>c.id===id)?.hex||'#888'; }
+  function colorLabel(id) { return COLORS.find(c=>c.id===id)?.label||id; }
+
+  function fmtDate(iso) {
+    const d = new Date(iso);
+    return d.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'}) +
+      ' · ' + d.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});
+  }
+
+  function sliderBg(val) {
+    const pct = (val - 1) / 4 * 100;
+    return `linear-gradient(to right, var(--accent) ${pct}%, var(--border) ${pct}%)`;
+  }
+
+  /* ── Render ── */
+
+  function htmlLogTab() {
+    if (s.loading) return `<div class="loading">Loading…</div>`;
+    if (!s.flow) return `
+      <div class="app-header">
+        <div class="app-emoji">💩</div>
+        <div class="app-title">Poop Tracker</div>
+        <div class="app-sub">Track your gut health</div>
+      </div>
+      <div class="log-start">
+        <button class="btn-log" id="start-log">+ Log Entry</button>
+      </div>`;
+    return htmlFlow();
+  }
+
+  function htmlFlow() {
+    const { step } = s.flow;
+    const name = STEPS[step];
+    const segs = STEPS.map((_,i) => `<div class="flow-seg${i<=step?' done':''}"></div>`).join('');
+    let body = '';
+
+    if (name === 'consistency') {
+      const v = s.flow.consistency;
+      body = `
+        <div class="flow-question">Consistency</div>
+        <div class="flow-sub">How would you describe it?</div>
+        <div class="slider-wrap">
+          <div class="slider-big" id="sl-c-val">${v}</div>
+          <div class="slider-lbl" id="sl-c-lbl">${CONSISTENCY[v]}</div>
+          <input type="range" min="1" max="5" value="${v}" id="sl-c" style="background:${sliderBg(v)}">
+          <div class="slider-ends"><span class="slider-end">Watery</span><span class="slider-end">Hard</span></div>
+        </div>`;
+    } else if (name === 'color') {
+      const sel = s.flow.color;
+      body = `
+        <div class="flow-question">Color</div>
+        <div class="flow-sub">What color was it?</div>
+        <div class="color-grid">
+          ${COLORS.map(c=>`
+            <div class="color-item">
+              <button class="color-btn${sel===c.id?' selected':''}" data-color="${c.id}" style="background:${c.hex}"></button>
+              <span class="color-name">${c.label}</span>
+            </div>`).join('')}
+        </div>`;
+    } else if (name === 'ease') {
+      const v = s.flow.ease;
+      body = `
+        <div class="flow-question">Ease</div>
+        <div class="flow-sub">How easy was it?</div>
+        <div class="slider-wrap">
+          <div class="slider-big" id="sl-e-val">${v}</div>
+          <div class="slider-lbl" id="sl-e-lbl">${EASE[v]}</div>
+          <input type="range" min="1" max="5" value="${v}" id="sl-e" style="background:${sliderBg(v)}">
+          <div class="slider-ends"><span class="slider-end">Easy</span><span class="slider-end">Difficult</span></div>
+        </div>`;
+    } else if (name === 'size') {
+      const v = s.flow.size;
+      body = `
+        <div class="flow-question">Size</div>
+        <div class="flow-sub">How big was it?</div>
+        <div class="slider-wrap">
+          <div class="slider-big" id="sl-s-val">${v}</div>
+          <div class="slider-lbl" id="sl-s-lbl">${SIZE[v]}</div>
+          <input type="range" min="1" max="5" value="${v}" id="sl-s" style="background:${sliderBg(v)}">
+          <div class="slider-ends"><span class="slider-end">Tiny</span><span class="slider-end">Huge</span></div>
+        </div>`;
+    }
+
+    const isLast = step === STEPS.length - 1;
+    const canNext = name !== 'color' || !!s.flow.color;
+    return `
+      <div class="flow-wrap">
+        <div class="flow-progress">${segs}</div>
+        ${body}
+        <button class="btn-next" id="btn-next" ${canNext?'':'disabled'}>${isLast?'Save Entry 💾':'Next →'}</button>
+        <button class="btn-ghost" id="btn-back">${step>0?'← Back':'Cancel'}</button>
+      </div>`;
+  }
+
+  function htmlHistoryTab() {
+    if (s.loading) return `<div class="loading">Loading…</div>`;
+    const sorted = s.entries.slice().sort((a,b)=>b.recorded_at.localeCompare(a.recorded_at));
+    if (!sorted.length) return `
+      <div class="history-header"><span class="history-title">History</span></div>
+      <div class="history-empty"><div class="history-empty-emoji">🔍</div><div>No entries yet.<br>Log your first one!</div></div>`;
+    return `
+      <div class="history-header">
+        <span class="history-title">History</span>
+        <span class="history-count">${sorted.length} entr${sorted.length===1?'y':'ies'}</span>
+      </div>
+      ${sorted.map(e=>`
+        <div class="entry-card">
+          <div class="entry-time">${fmtDate(e.recorded_at)}</div>
+          <div class="entry-stats">
+            <div class="entry-stat"><div class="stat-label">Consistency</div><div class="stat-value">${CONSISTENCY[e.consistency]}</div></div>
+            <div class="entry-stat"><div class="stat-label">Color</div><div class="stat-value"><div class="color-dot" style="background:${colorHex(e.color)}"></div></div></div>
+            <div class="entry-stat"><div class="stat-label">Ease</div><div class="stat-value">${EASE[e.ease]}</div></div>
+            <div class="entry-stat"><div class="stat-label">Size</div><div class="stat-value">${SIZE[e.size]}</div></div>
+          </div>
+        </div>`).join('')}`;
+  }
+
+  function render() {
+    document.getElementById('app').innerHTML =
+      s.tab === 'log' ? htmlLogTab() : htmlHistoryTab();
+    document.querySelectorAll('.tab-btn').forEach(b =>
+      b.classList.toggle('active', b.dataset.tab === s.tab));
+    bind();
+  }
+
+  /* ── Bind ── */
+
+  function bindSlider(id, key, labels, valId, lblId) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.addEventListener('input', () => {
+      s.flow[key] = parseInt(el.value);
+      const vEl = document.getElementById(valId);
+      const lEl = document.getElementById(lblId);
+      if (vEl) vEl.textContent = s.flow[key];
+      if (lEl) lEl.textContent = labels[s.flow[key]];
+      el.style.background = sliderBg(s.flow[key]);
+    });
+  }
+
+  function bind() {
+    document.querySelectorAll('.tab-btn').forEach(b =>
+      b.addEventListener('click', () => { s.tab = b.dataset.tab; render(); }));
+
+    document.getElementById('start-log')?.addEventListener('click', () => {
+      s.flow = { step:0, consistency:3, color:null, ease:3, size:3 };
+      render();
+    });
+
+    document.getElementById('btn-back')?.addEventListener('click', () => {
+      if (s.flow.step > 0) { s.flow.step--; render(); }
+      else { s.flow = null; render(); }
+    });
+
+    bindSlider('sl-c', 'consistency', CONSISTENCY, 'sl-c-val', 'sl-c-lbl');
+    bindSlider('sl-e', 'ease',        EASE,        'sl-e-val', 'sl-e-lbl');
+    bindSlider('sl-s', 'size',        SIZE,        'sl-s-val', 'sl-s-lbl');
+
+    document.querySelectorAll('[data-color]').forEach(b => b.addEventListener('click', () => {
+      s.flow.color = b.dataset.color;
+      document.querySelectorAll('[data-color]').forEach(x =>
+        x.classList.toggle('selected', x.dataset.color === s.flow.color));
+      const nxt = document.getElementById('btn-next');
+      if (nxt) nxt.disabled = false;
+    }));
+
+    document.getElementById('btn-next')?.addEventListener('click', () => {
+      if (!s.flow) return;
+      if (s.flow.step < STEPS.length - 1) { s.flow.step++; render(); }
+      else saveEntry();
+    });
+  }
+
+  /* ── Data ── */
+
+  async function saveEntry() {
+    const entry = {
+      id: Date.now().toString(),
+      recorded_at: new Date().toISOString(),
+      consistency: s.flow.consistency,
+      color: s.flow.color,
+      ease: s.flow.ease,
+      size: s.flow.size,
+    };
+    s.entries.push(entry);
+    s.flow = null;
+    s.tab = 'history';
+    render();
+    await db.from('poop_entries').insert(entry);
+  }
+
+  async function loadData() {
+    const { data } = await db.from('poop_entries').select('*').order('recorded_at', { ascending: false });
+    if (data) s.entries = data;
+    s.loading = false;
+    render();
+  }
+
+  if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js');
+  render();
+  loadData();
+</script>
+</body>
+</html>
