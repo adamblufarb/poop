@@ -3,84 +3,95 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#0d0d14">
+  <meta name="theme-color" content="#fffbf4">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <title>💩 Tracker</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
     :root {
-      --bg: #0d0d14; --card: #16161f; --card2: #1e1e2a;
-      --accent: #f59e0b; --text: #f0f0f0; --subtext: #777;
-      --border: #252530; --radius: 16px;
+      --bg: #fffbf4;
+      --card: #ffffff;
+      --card2: #fef9f0;
+      --accent: #f97316;
+      --accent2: #fbbf24;
+      --text: #1c1917;
+      --subtext: #a8a29e;
+      --border: #e7e5e4;
+      --radius: 20px;
+      --shadow: 0 2px 12px rgba(0,0,0,0.07);
+      --shadow-lg: 0 4px 24px rgba(0,0,0,0.10);
     }
     body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; min-height: 100vh; max-width: 480px; margin: 0 auto; }
 
     /* Tab bar */
-    .tab-bar { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 480px; background: var(--card); border-top: 1px solid var(--border); display: flex; z-index: 100; padding-bottom: env(safe-area-inset-bottom); }
-    .tab-btn { flex: 1; padding: 12px 8px; background: none; border: none; color: var(--subtext); font-size: 0.72rem; font-family: inherit; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 3px; transition: color 0.15s; }
+    .tab-bar { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 480px; background: #fff; border-top: 1px solid var(--border); display: flex; z-index: 100; padding-bottom: env(safe-area-inset-bottom); box-shadow: 0 -2px 12px rgba(0,0,0,0.05); }
+    .tab-btn { flex: 1; padding: 12px 8px; background: none; border: none; color: var(--subtext); font-size: 0.72rem; font-weight: 600; font-family: inherit; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 3px; transition: color 0.15s; }
     .tab-icon { font-size: 1.4rem; line-height: 1; }
     .tab-btn.active { color: var(--accent); }
 
     /* Content */
-    .content { padding: 0 20px calc(80px + env(safe-area-inset-bottom)) 20px; }
+    .content { padding: 0 20px calc(88px + env(safe-area-inset-bottom)) 20px; }
 
-    /* Header */
-    .app-header { padding: 52px 0 28px; text-align: center; }
-    .app-emoji { font-size: 3.8rem; line-height: 1; margin-bottom: 10px; }
-    .app-title { font-size: 1.9rem; font-weight: 900; letter-spacing: -0.5px; }
-    .app-sub { color: var(--subtext); font-size: 0.88rem; margin-top: 6px; }
-
-    /* Log start */
-    .log-start { display: flex; flex-direction: column; align-items: center; padding-top: 20px; }
-    .btn-log { width: 100%; padding: 18px; background: var(--accent); color: #0d0d14; font-weight: 800; font-size: 1.1rem; border: none; border-radius: var(--radius); cursor: pointer; font-family: inherit; transition: opacity 0.15s, transform 0.1s; touch-action: manipulation; }
-    .btn-log:active { transform: scale(0.97); opacity: 0.88; }
+    /* Home */
+    .home-header { padding: 56px 0 32px; text-align: center; }
+    .home-emoji { font-size: 5rem; line-height: 1; margin-bottom: 12px; filter: drop-shadow(0 4px 8px rgba(249,115,22,0.25)); }
+    .home-title { font-size: 2.2rem; font-weight: 900; letter-spacing: -1px; background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .home-sub { color: var(--subtext); font-size: 0.9rem; margin-top: 6px; }
+    .btn-log { width: 100%; padding: 18px; background: linear-gradient(135deg, var(--accent), var(--accent2)); color: #fff; font-weight: 800; font-size: 1.1rem; border: none; border-radius: var(--radius); cursor: pointer; font-family: inherit; box-shadow: 0 4px 16px rgba(249,115,22,0.35); transition: transform 0.1s, box-shadow 0.1s; touch-action: manipulation; margin-top: 8px; }
+    .btn-log:active { transform: scale(0.97); box-shadow: 0 2px 8px rgba(249,115,22,0.25); }
 
     /* Flow */
-    .flow-wrap { padding-top: 28px; }
-    .flow-progress { display: flex; gap: 6px; margin-bottom: 36px; }
-    .flow-seg { flex: 1; height: 4px; border-radius: 2px; background: var(--border); transition: background 0.3s; }
-    .flow-seg.done { background: var(--accent); }
-    .flow-question { font-size: 1.6rem; font-weight: 800; margin-bottom: 6px; }
+    .flow-wrap { padding-top: 32px; }
+    .flow-progress { display: flex; gap: 6px; margin-bottom: 40px; }
+    .flow-seg { flex: 1; height: 6px; border-radius: 3px; background: var(--border); transition: background 0.3s; }
+    .flow-seg.done { background: linear-gradient(90deg, var(--accent), var(--accent2)); }
+
+    .flow-step-emoji { font-size: 2.8rem; margin-bottom: 10px; line-height: 1; }
+    .flow-question { font-size: 1.7rem; font-weight: 900; letter-spacing: -0.5px; margin-bottom: 6px; }
     .flow-sub { color: var(--subtext); font-size: 0.9rem; margin-bottom: 36px; }
 
     /* Slider */
-    .slider-wrap { margin-bottom: 32px; }
-    .slider-big { text-align: center; font-size: 3rem; font-weight: 900; color: var(--accent); line-height: 1; }
-    .slider-lbl { text-align: center; font-size: 1rem; color: var(--text); margin: 6px 0 20px; min-height: 22px; }
-    input[type=range] { -webkit-appearance: none; appearance: none; width: 100%; height: 6px; border-radius: 3px; outline: none; cursor: pointer; }
-    input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 30px; height: 30px; border-radius: 50%; background: var(--accent); cursor: pointer; box-shadow: 0 2px 12px rgba(245,158,11,0.5); }
-    input[type=range]::-moz-range-thumb { width: 30px; height: 30px; border-radius: 50%; background: var(--accent); cursor: pointer; border: none; box-shadow: 0 2px 12px rgba(245,158,11,0.5); }
+    .slider-wrap { margin-bottom: 36px; }
+    .slider-display { display: flex; flex-direction: column; align-items: center; margin-bottom: 24px; }
+    .slider-bubble { width: 72px; height: 72px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), var(--accent2)); display: flex; align-items: center; justify-content: center; font-size: 1.8rem; font-weight: 900; color: #fff; box-shadow: 0 4px 16px rgba(249,115,22,0.35); margin-bottom: 8px; }
+    .slider-lbl { font-size: 1rem; font-weight: 700; color: var(--text); min-height: 22px; }
+    input[type=range] { -webkit-appearance: none; appearance: none; width: 100%; height: 8px; border-radius: 4px; outline: none; cursor: pointer; }
+    input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 32px; height: 32px; border-radius: 50%; background: #fff; border: 3px solid var(--accent); cursor: pointer; box-shadow: 0 2px 10px rgba(249,115,22,0.4); transition: transform 0.1s; }
+    input[type=range]::-webkit-slider-thumb:active { transform: scale(1.15); }
+    input[type=range]::-moz-range-thumb { width: 32px; height: 32px; border-radius: 50%; background: #fff; border: 3px solid var(--accent); cursor: pointer; box-shadow: 0 2px 10px rgba(249,115,22,0.4); }
     .slider-ends { display: flex; justify-content: space-between; margin-top: 10px; }
-    .slider-end { font-size: 0.75rem; color: var(--subtext); }
+    .slider-end { font-size: 0.75rem; color: var(--subtext); font-weight: 500; }
 
     /* Color picker */
-    .color-grid { display: flex; gap: 10px; justify-content: space-between; margin-bottom: 32px; }
+    .color-grid { display: flex; gap: 8px; justify-content: space-between; margin-bottom: 36px; }
     .color-item { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 8px; }
-    .color-btn { width: 52px; height: 52px; border-radius: 50%; border: 3px solid transparent; cursor: pointer; transition: transform 0.15s, border-color 0.15s, box-shadow 0.15s; touch-action: manipulation; flex-shrink: 0; }
-    .color-btn.selected { border-color: white; transform: scale(1.12); box-shadow: 0 0 0 2px var(--accent); }
+    .color-btn { width: 100%; aspect-ratio: 1; border-radius: 50%; border: 4px solid transparent; cursor: pointer; transition: transform 0.15s, border-color 0.15s, box-shadow 0.15s; touch-action: manipulation; box-shadow: var(--shadow); }
+    .color-btn.selected { border-color: var(--accent); transform: scale(1.12); box-shadow: 0 0 0 3px rgba(249,115,22,0.25), var(--shadow-lg); }
     .color-btn:active { transform: scale(0.9); }
-    .color-name { font-size: 0.68rem; color: var(--subtext); text-align: center; }
+    .color-name { font-size: 0.68rem; color: var(--subtext); text-align: center; font-weight: 600; }
 
     /* Buttons */
-    .btn-next { width: 100%; padding: 16px; background: var(--accent); color: #0d0d14; font-weight: 800; font-size: 1rem; border: none; border-radius: var(--radius); cursor: pointer; font-family: inherit; transition: opacity 0.15s, transform 0.1s; touch-action: manipulation; }
-    .btn-next:disabled { opacity: 0.25; cursor: not-allowed; }
-    .btn-next:not(:disabled):active { transform: scale(0.98); opacity: 0.9; }
-    .btn-ghost { width: 100%; padding: 14px; background: none; color: var(--subtext); font-size: 0.9rem; border: none; cursor: pointer; font-family: inherit; margin-top: 8px; }
+    .btn-next { width: 100%; padding: 17px; background: linear-gradient(135deg, var(--accent), var(--accent2)); color: #fff; font-weight: 800; font-size: 1.05rem; border: none; border-radius: var(--radius); cursor: pointer; font-family: inherit; box-shadow: 0 4px 16px rgba(249,115,22,0.30); transition: transform 0.1s, box-shadow 0.1s; touch-action: manipulation; }
+    .btn-next:disabled { opacity: 0.3; cursor: not-allowed; box-shadow: none; }
+    .btn-next:not(:disabled):active { transform: scale(0.98); box-shadow: 0 2px 8px rgba(249,115,22,0.2); }
+    .btn-ghost { width: 100%; padding: 14px; background: none; color: var(--subtext); font-size: 0.9rem; font-weight: 600; border: none; cursor: pointer; font-family: inherit; margin-top: 8px; }
 
     /* History */
-    .history-header { padding: 40px 0 20px; display: flex; align-items: baseline; gap: 10px; }
-    .history-title { font-size: 1.4rem; font-weight: 800; }
-    .history-count { font-size: 0.85rem; color: var(--subtext); }
+    .history-header { padding: 44px 0 20px; display: flex; align-items: baseline; gap: 10px; }
+    .history-title { font-size: 1.5rem; font-weight: 900; letter-spacing: -0.5px; }
+    .history-count { font-size: 0.85rem; color: var(--subtext); font-weight: 600; }
     .history-empty { text-align: center; padding: 60px 20px; color: var(--subtext); }
-    .history-empty-emoji { font-size: 3rem; margin-bottom: 12px; }
-    .entry-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 16px; margin-bottom: 10px; }
-    .entry-time { font-size: 0.78rem; color: var(--subtext); margin-bottom: 12px; }
+    .history-empty-emoji { font-size: 3.5rem; margin-bottom: 12px; }
+    .history-empty-text { font-size: 0.95rem; line-height: 1.5; }
+
+    .entry-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-bottom: 10px; box-shadow: var(--shadow); }
+    .entry-time { font-size: 0.78rem; color: var(--subtext); margin-bottom: 12px; font-weight: 600; }
     .entry-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
-    .entry-stat { background: var(--card2); border-radius: 10px; padding: 8px 4px; text-align: center; }
-    .stat-label { font-size: 0.58rem; color: var(--subtext); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 5px; }
-    .stat-value { font-size: 0.78rem; font-weight: 700; line-height: 1.2; }
-    .color-dot { width: 18px; height: 18px; border-radius: 50%; margin: 0 auto; border: 1px solid rgba(255,255,255,0.12); }
+    .entry-stat { background: var(--card2); border-radius: 12px; padding: 10px 4px; text-align: center; border: 1px solid var(--border); }
+    .stat-label { font-size: 0.56rem; color: var(--subtext); text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 6px; font-weight: 700; }
+    .stat-value { font-size: 0.78rem; font-weight: 800; color: var(--text); line-height: 1.2; }
+    .color-dot { width: 20px; height: 20px; border-radius: 50%; margin: 0 auto; border: 2px solid rgba(0,0,0,0.08); }
 
     /* Loading */
     .loading { text-align: center; padding: 80px 20px; color: var(--subtext); font-size: 0.9rem; }
@@ -105,21 +116,16 @@
   const COLORS = [
     { id:'brown',  label:'Brown',  hex:'#7B3F00' },
     { id:'yellow', label:'Yellow', hex:'#F5C518' },
-    { id:'black',  label:'Black',  hex:'#2a2a2a' },
+    { id:'black',  label:'Black',  hex:'#3a3a3a' },
     { id:'red',    label:'Red',    hex:'#DC143C' },
     { id:'green',  label:'Green',  hex:'#2E7D32' },
   ];
   const STEPS = ['consistency','color','ease','size'];
+  const STEP_EMOJI = { consistency:'💧', color:'🎨', ease:'😌', size:'📏' };
 
-  const s = {
-    tab: 'log',
-    entries: [],
-    loading: true,
-    flow: null,
-  };
+  const s = { tab:'log', entries:[], loading:true, flow:null };
 
   function colorHex(id) { return COLORS.find(c=>c.id===id)?.hex||'#888'; }
-  function colorLabel(id) { return COLORS.find(c=>c.id===id)?.label||id; }
 
   function fmtDate(iso) {
     const d = new Date(iso);
@@ -129,7 +135,7 @@
 
   function sliderBg(val) {
     const pct = (val - 1) / 4 * 100;
-    return `linear-gradient(to right, var(--accent) ${pct}%, var(--border) ${pct}%)`;
+    return `linear-gradient(to right, #f97316 ${pct}%, #e7e5e4 ${pct}%)`;
   }
 
   /* ── Render ── */
@@ -137,14 +143,12 @@
   function htmlLogTab() {
     if (s.loading) return `<div class="loading">Loading…</div>`;
     if (!s.flow) return `
-      <div class="app-header">
-        <div class="app-emoji">💩</div>
-        <div class="app-title">Poop Tracker</div>
-        <div class="app-sub">Track your gut health</div>
+      <div class="home-header">
+        <div class="home-emoji">💩</div>
+        <div class="home-title">Poop Tracker</div>
+        <div class="home-sub">Know your gut 🌿</div>
       </div>
-      <div class="log-start">
-        <button class="btn-log" id="start-log">+ Log Entry</button>
-      </div>`;
+      <button class="btn-log" id="start-log">+ Log Entry</button>`;
     return htmlFlow();
   }
 
@@ -157,19 +161,23 @@
     if (name === 'consistency') {
       const v = s.flow.consistency;
       body = `
+        <div class="flow-step-emoji">${STEP_EMOJI.consistency}</div>
         <div class="flow-question">Consistency</div>
-        <div class="flow-sub">How would you describe it?</div>
+        <div class="flow-sub">What was the texture like?</div>
         <div class="slider-wrap">
-          <div class="slider-big" id="sl-c-val">${v}</div>
-          <div class="slider-lbl" id="sl-c-lbl">${CONSISTENCY[v]}</div>
+          <div class="slider-display">
+            <div class="slider-bubble" id="sl-c-val">${v}</div>
+            <div class="slider-lbl" id="sl-c-lbl">${CONSISTENCY[v]}</div>
+          </div>
           <input type="range" min="1" max="5" value="${v}" id="sl-c" style="background:${sliderBg(v)}">
           <div class="slider-ends"><span class="slider-end">Watery</span><span class="slider-end">Hard</span></div>
         </div>`;
     } else if (name === 'color') {
       const sel = s.flow.color;
       body = `
+        <div class="flow-step-emoji">${STEP_EMOJI.color}</div>
         <div class="flow-question">Color</div>
-        <div class="flow-sub">What color was it?</div>
+        <div class="flow-sub">Pick the closest match</div>
         <div class="color-grid">
           ${COLORS.map(c=>`
             <div class="color-item">
@@ -180,35 +188,40 @@
     } else if (name === 'ease') {
       const v = s.flow.ease;
       body = `
+        <div class="flow-step-emoji">${STEP_EMOJI.ease}</div>
         <div class="flow-question">Ease</div>
-        <div class="flow-sub">How easy was it?</div>
+        <div class="flow-sub">How much effort did it take?</div>
         <div class="slider-wrap">
-          <div class="slider-big" id="sl-e-val">${v}</div>
-          <div class="slider-lbl" id="sl-e-lbl">${EASE[v]}</div>
+          <div class="slider-display">
+            <div class="slider-bubble" id="sl-e-val">${v}</div>
+            <div class="slider-lbl" id="sl-e-lbl">${EASE[v]}</div>
+          </div>
           <input type="range" min="1" max="5" value="${v}" id="sl-e" style="background:${sliderBg(v)}">
           <div class="slider-ends"><span class="slider-end">Easy</span><span class="slider-end">Difficult</span></div>
         </div>`;
     } else if (name === 'size') {
       const v = s.flow.size;
       body = `
+        <div class="flow-step-emoji">${STEP_EMOJI.size}</div>
         <div class="flow-question">Size</div>
-        <div class="flow-sub">How big was it?</div>
+        <div class="flow-sub">Estimate the volume</div>
         <div class="slider-wrap">
-          <div class="slider-big" id="sl-s-val">${v}</div>
-          <div class="slider-lbl" id="sl-s-lbl">${SIZE[v]}</div>
+          <div class="slider-display">
+            <div class="slider-bubble" id="sl-s-val">${v}</div>
+            <div class="slider-lbl" id="sl-s-lbl">${SIZE[v]}</div>
+          </div>
           <input type="range" min="1" max="5" value="${v}" id="sl-s" style="background:${sliderBg(v)}">
           <div class="slider-ends"><span class="slider-end">Tiny</span><span class="slider-end">Huge</span></div>
         </div>`;
     }
 
     const isLast = step === STEPS.length - 1;
-    const canNext = name !== 'color' || !!s.flow.color;
     return `
       <div class="flow-wrap">
         <div class="flow-progress">${segs}</div>
         ${body}
-        <button class="btn-next" id="btn-next" ${canNext?'':'disabled'}>${isLast?'Save Entry 💾':'Next →'}</button>
-        <button class="btn-ghost" id="btn-back">${step>0?'← Back':'Cancel'}</button>
+        <button class="btn-next" id="btn-next">${isLast ? 'Save Entry 💾' : 'Next →'}</button>
+        <button class="btn-ghost" id="btn-back">${step > 0 ? '← Back' : 'Cancel'}</button>
       </div>`;
   }
 
@@ -217,7 +230,10 @@
     const sorted = s.entries.slice().sort((a,b)=>b.recorded_at.localeCompare(a.recorded_at));
     if (!sorted.length) return `
       <div class="history-header"><span class="history-title">History</span></div>
-      <div class="history-empty"><div class="history-empty-emoji">🔍</div><div>No entries yet.<br>Log your first one!</div></div>`;
+      <div class="history-empty">
+        <div class="history-empty-emoji">🔍</div>
+        <div class="history-empty-text">No entries yet.<br>Log your first one!</div>
+      </div>`;
     return `
       <div class="history-header">
         <span class="history-title">History</span>
@@ -263,7 +279,7 @@
       b.addEventListener('click', () => { s.tab = b.dataset.tab; render(); }));
 
     document.getElementById('start-log')?.addEventListener('click', () => {
-      s.flow = { step:0, consistency:3, color:null, ease:3, size:3 };
+      s.flow = { step:0, consistency:3, color:'brown', ease:3, size:3 };
       render();
     });
 
@@ -280,8 +296,6 @@
       s.flow.color = b.dataset.color;
       document.querySelectorAll('[data-color]').forEach(x =>
         x.classList.toggle('selected', x.dataset.color === s.flow.color));
-      const nxt = document.getElementById('btn-next');
-      if (nxt) nxt.disabled = false;
     }));
 
     document.getElementById('btn-next')?.addEventListener('click', () => {
