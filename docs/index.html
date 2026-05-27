@@ -17,6 +17,7 @@
     }
     body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; min-height: 100vh; max-width: 480px; margin: 0 auto; }
 
+    /* Tab bar */
     .tab-bar { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 480px; background: #fff; border-top: 1px solid var(--border); display: flex; z-index: 100; padding-bottom: env(safe-area-inset-bottom); box-shadow: 0 -2px 12px rgba(0,0,0,0.05); }
     .tab-btn { flex: 1; padding: 12px 8px; background: none; border: none; color: var(--subtext); font-size: 0.72rem; font-weight: 600; font-family: inherit; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 3px; transition: color 0.15s; }
     .tab-icon { font-size: 1.4rem; line-height: 1; }
@@ -34,18 +35,21 @@
 
     /* Flow */
     .flow-wrap { padding-top: 32px; }
-    .flow-progress { display: flex; gap: 6px; margin-bottom: 40px; }
+    .flow-progress { display: flex; gap: 6px; margin-bottom: 32px; }
     .flow-seg { flex: 1; height: 6px; border-radius: 3px; background: var(--border); transition: background 0.3s; }
     .flow-seg.done { background: linear-gradient(90deg, var(--accent), var(--accent2)); }
-    .flow-step-emoji { font-size: 2.8rem; margin-bottom: 10px; line-height: 1; }
-    .flow-question { font-size: 1.7rem; font-weight: 900; letter-spacing: -0.5px; margin-bottom: 6px; }
-    .flow-sub { color: var(--subtext); font-size: 0.9rem; margin-bottom: 36px; }
 
-    /* Slider — label-first hierarchy */
+    /* Inline emoji + title */
+    .flow-header { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; }
+    .flow-step-emoji { font-size: 1.7rem; line-height: 1; flex-shrink: 0; }
+    .flow-question { font-size: 1.3rem; font-weight: 900; letter-spacing: -0.3px; }
+    .flow-sub { color: var(--subtext); font-size: 0.88rem; margin-bottom: 28px; margin-top: 2px; }
+
+    /* Slider */
     .slider-wrap { margin-bottom: 36px; }
-    .slider-display { text-align: center; margin-bottom: 24px; }
+    .slider-display { text-align: center; margin-bottom: 22px; }
     .slider-lbl { font-size: 2.4rem; font-weight: 900; color: var(--text); line-height: 1; }
-    .slider-num { font-size: 0.9rem; color: var(--subtext); font-weight: 600; margin-top: 4px; }
+    .slider-num { font-size: 0.88rem; color: var(--subtext); font-weight: 600; margin-top: 4px; }
     input[type=range] { -webkit-appearance: none; appearance: none; width: 100%; height: 8px; border-radius: 4px; outline: none; cursor: pointer; }
     input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 32px; height: 32px; border-radius: 50%; background: #fff; border: 3px solid var(--accent); cursor: pointer; box-shadow: 0 2px 10px rgba(249,115,22,0.4); }
     input[type=range]::-moz-range-thumb { width: 32px; height: 32px; border-radius: 50%; background: #fff; border: 3px solid var(--accent); cursor: pointer; border: none; }
@@ -53,18 +57,17 @@
     .slider-end { font-size: 0.75rem; color: var(--subtext); font-weight: 500; }
 
     /* Size step */
-    .poop-size-display { text-align: center; margin-bottom: 20px; height: 220px; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; flex-shrink: 0; }
+    .poop-size-display { text-align: center; margin-bottom: 20px; height: 160px; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; flex-shrink: 0; }
     .poop-size-emoji { line-height: 1; transition: font-size 0.04s linear; }
     .poop-size-lbl { font-size: 2.4rem; font-weight: 900; margin-top: 8px; }
-    .poop-size-num { font-size: 0.9rem; color: var(--subtext); font-weight: 600; margin-top: 2px; }
+    .poop-size-num { font-size: 0.88rem; color: var(--subtext); font-weight: 600; margin-top: 2px; }
 
     /* 2D Color picker */
-    .color-picker-wrap { position: relative; width: 100%; margin-bottom: 12px; border-radius: 20px; overflow: hidden; }
-    .color-picker-wrap canvas { width: 100%; aspect-ratio: 1; display: block; touch-action: none; cursor: crosshair; }
-    .color-cursor { position: absolute; width: 28px; height: 28px; border-radius: 50%; border: 3px solid #fff; transform: translate(-50%, -50%); pointer-events: none; box-shadow: 0 2px 10px rgba(0,0,0,0.4); }
-    .color-preview-row { display: flex; align-items: center; gap: 12px; margin-bottom: 32px; }
-    .color-preview-dot { width: 36px; height: 36px; border-radius: 50%; border: 3px solid #fff; box-shadow: var(--shadow); flex-shrink: 0; }
-    .color-preview-label { font-size: 0.85rem; color: var(--subtext); font-weight: 500; }
+    .color-poop-preview { display: flex; justify-content: center; margin-bottom: 14px; }
+    .color-poop-bg { width: 72px; height: 72px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; line-height: 1; box-shadow: 0 4px 16px rgba(0,0,0,0.18); transition: background 0.08s; }
+    .color-picker-wrap { position: relative; width: 100%; margin-bottom: 28px; border-radius: 16px; overflow: hidden; }
+    .color-picker-wrap canvas { width: 100%; aspect-ratio: 5/3; display: block; touch-action: none; cursor: crosshair; }
+    .color-cursor { position: absolute; width: 28px; height: 28px; border-radius: 50%; border: 3px solid #fff; transform: translate(-50%, -50%); pointer-events: none; box-shadow: 0 2px 10px rgba(0,0,0,0.45); }
 
     /* Buttons */
     .btn-next { width: 100%; padding: 17px; background: linear-gradient(135deg, var(--accent), var(--accent2)); color: #fff; font-weight: 800; font-size: 1.05rem; border: none; border-radius: var(--radius); cursor: pointer; font-family: inherit; box-shadow: 0 4px 16px rgba(249,115,22,0.30); transition: transform 0.1s; touch-action: manipulation; }
@@ -78,20 +81,26 @@
     .history-empty { text-align: center; padding: 60px 20px; color: var(--subtext); }
     .history-empty-emoji { font-size: 3.5rem; margin-bottom: 12px; }
     .entry-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-bottom: 10px; box-shadow: var(--shadow); }
-    .entry-time { font-size: 0.78rem; color: var(--subtext); margin-bottom: 12px; font-weight: 600; }
+    .entry-card-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+    .entry-time { font-size: 0.78rem; color: var(--subtext); font-weight: 600; }
+    .entry-del-btn { background: none; border: none; cursor: pointer; font-size: 1rem; color: #d4d4d8; padding: 0 0 0 8px; transition: color 0.15s; }
+    .entry-del-btn:hover { color: #ef4444; }
+    .entry-del-confirm { background: #fef2f2; border: 1px solid #fecaca; border-radius: 12px; padding: 10px 14px; display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+    .entry-del-confirm span { font-size: 0.83rem; color: #dc2626; flex: 1; font-weight: 600; }
+    .btn-del-yes { background: #ef4444; color: #fff; border: none; border-radius: 8px; padding: 6px 14px; font-size: 0.8rem; font-weight: 700; cursor: pointer; font-family: inherit; }
+    .btn-del-no { background: none; border: 1px solid var(--border); border-radius: 8px; padding: 6px 14px; font-size: 0.8rem; cursor: pointer; font-family: inherit; color: var(--subtext); }
     .entry-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
     .entry-stat { background: var(--card2); border-radius: 12px; padding: 10px 4px; text-align: center; border: 1px solid var(--border); }
     .stat-label { font-size: 0.56rem; color: var(--subtext); text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 6px; font-weight: 700; }
     .stat-value { font-size: 0.78rem; font-weight: 800; color: var(--text); line-height: 1.2; }
     .color-dot { width: 20px; height: 20px; border-radius: 50%; margin: 0 auto; border: 2px solid rgba(0,0,0,0.08); }
 
-    /* Loading */
     .loading { text-align: center; padding: 80px 20px; color: var(--subtext); font-size: 0.9rem; }
 
     /* Confetti */
     @keyframes confetti-fall {
       0%   { transform: translateY(-80px) rotate(0deg) translateX(0); }
-      100% { transform: translateY(115vh) rotate(600deg) translateX(var(--drift, 0px)); }
+      100% { transform: translateY(115vh) rotate(600deg) translateX(var(--drift,0px)); }
     }
   </style>
 </head>
@@ -112,11 +121,10 @@
   const EASE        = { 1:'Easy',   2:'Mild',  3:'Moderate', 4:'Tough', 5:'Difficult' };
   const SIZE        = { 1:'Tiny',   2:'Small', 3:'Medium',   4:'Large', 5:'Huge' };
   const STEPS       = ['consistency','color','ease','size'];
-  const STEP_EMOJI  = { consistency:'💧', color:'🎨', ease:'😌', size:'💩' };
-
+  const STEP_EMOJI  = { consistency:'💧', color:'🎨', ease:'😌', size:'📏' };
   const CONFETTI_EMOJIS = ['🚽','💩','🧻','🪠','💨'];
 
-  const s = { tab:'log', entries:[], loading:true, flow:null };
+  const s = { tab:'log', entries:[], loading:true, flow:null, confirmDeleteEntry:null };
 
   function colorHex(c) {
     if (!c) return '#888';
@@ -132,12 +140,12 @@
   }
 
   function sliderBg(val) {
-    const pct = Math.max(0, Math.min(100, (val - 1) / 4 * 100));
-    return `linear-gradient(to right, #f97316 ${pct}%, #e7e5e4 ${pct}%)`;
+    const pct = Math.max(0,Math.min(100,(val-1)/4*100));
+    return `linear-gradient(to right,#f97316 ${pct}%,#e7e5e4 ${pct}%)`;
   }
 
   function poopFontSize(val) {
-    return (2 + (val - 1) / 4 * 11).toFixed(2); // 2rem → 13rem
+    return (2 + (val-1)/4*7).toFixed(2); // 2rem → 9rem
   }
 
   /* ── HTML ── */
@@ -157,15 +165,16 @@
   function htmlFlow() {
     const { step } = s.flow;
     const name = STEPS[step];
-    const segs = STEPS.map((_,i) => `<div class="flow-seg${i<=step?' done':''}"></div>`).join('');
+    const segs = STEPS.map((_,i)=>`<div class="flow-seg${i<=step?' done':''}"></div>`).join('');
     let body = '';
 
     if (name === 'consistency') {
-      const v = s.flow.consistency;
-      const rv = Math.round(v);
+      const v = s.flow.consistency, rv = Math.round(v);
       body = `
-        <div class="flow-step-emoji">${STEP_EMOJI.consistency}</div>
-        <div class="flow-question">Consistency</div>
+        <div class="flow-header">
+          <span class="flow-step-emoji">${STEP_EMOJI.consistency}</span>
+          <span class="flow-question">Consistency</span>
+        </div>
         <div class="flow-sub">What was the texture like?</div>
         <div class="slider-wrap">
           <div class="slider-display">
@@ -178,26 +187,28 @@
 
     } else if (name === 'color') {
       const hex = s.flow.color || '#7B3F00';
-      const pos = s.flow.colorPos || { x: 0.5, y: 0.5 };
+      const pos = s.flow.colorPos || {x:0.5,y:0.5};
       body = `
-        <div class="flow-step-emoji">${STEP_EMOJI.color}</div>
-        <div class="flow-question">Color</div>
-        <div class="flow-sub">Drag to find the perfect match</div>
-        <div class="color-picker-wrap" id="cp-wrap">
-          <canvas id="color-canvas" width="200" height="200"></canvas>
-          <div class="color-cursor" id="color-cursor" style="left:${pos.x*100}%;top:${pos.y*100}%;background:${hex}"></div>
+        <div class="flow-header">
+          <span class="flow-step-emoji">${STEP_EMOJI.color}</span>
+          <span class="flow-question">Color</span>
         </div>
-        <div class="color-preview-row">
-          <div class="color-preview-dot" id="color-preview-dot" style="background:${hex}"></div>
-          <div class="color-preview-label">Selected color</div>
+        <div class="flow-sub">Drag to find the perfect match</div>
+        <div class="color-poop-preview">
+          <div class="color-poop-bg" id="poop-color-bg" style="background:${hex}">💩</div>
+        </div>
+        <div class="color-picker-wrap" id="cp-wrap">
+          <canvas id="color-canvas" width="300" height="180"></canvas>
+          <div class="color-cursor" id="color-cursor" style="left:${pos.x*100}%;top:${pos.y*100}%;background:${hex}"></div>
         </div>`;
 
     } else if (name === 'ease') {
-      const v = s.flow.ease;
-      const rv = Math.round(v);
+      const v = s.flow.ease, rv = Math.round(v);
       body = `
-        <div class="flow-step-emoji">${STEP_EMOJI.ease}</div>
-        <div class="flow-question">Ease</div>
+        <div class="flow-header">
+          <span class="flow-step-emoji">${STEP_EMOJI.ease}</span>
+          <span class="flow-question">Ease</span>
+        </div>
         <div class="flow-sub">How much effort did it take?</div>
         <div class="slider-wrap">
           <div class="slider-display">
@@ -209,11 +220,13 @@
         </div>`;
 
     } else if (name === 'size') {
-      const v = s.flow.size;
+      const v = s.flow.size, rounded = Math.round(v);
       const fs = poopFontSize(v);
-      const rounded = Math.round(v);
       body = `
-        <div class="flow-question">Size</div>
+        <div class="flow-header">
+          <span class="flow-step-emoji">${STEP_EMOJI.size}</span>
+          <span class="flow-question">Size</span>
+        </div>
         <div class="flow-sub">How big was it?</div>
         <div class="slider-wrap">
           <div class="poop-size-display">
@@ -231,14 +244,14 @@
       <div class="flow-wrap">
         <div class="flow-progress">${segs}</div>
         ${body}
-        <button class="btn-next" id="btn-next">${isLast ? 'Save Entry 💾' : 'Next →'}</button>
-        <button class="btn-ghost" id="btn-back">${step > 0 ? '← Back' : 'Cancel'}</button>
+        <button class="btn-next" id="btn-next">${isLast?'Save Entry 💾':'Next →'}</button>
+        <button class="btn-ghost" id="btn-back">${step>0?'← Back':'Cancel'}</button>
       </div>`;
   }
 
   function htmlHistoryTab() {
     if (s.loading) return `<div class="loading">Loading…</div>`;
-    const sorted = s.entries.slice().sort((a,b) => b.recorded_at.localeCompare(a.recorded_at));
+    const sorted = s.entries.slice().sort((a,b)=>b.recorded_at.localeCompare(a.recorded_at));
     if (!sorted.length) return `
       <div class="history-header"><span class="history-title">History</span></div>
       <div class="history-empty">
@@ -251,10 +264,20 @@
         <span class="history-count">${sorted.length} entr${sorted.length===1?'y':'ies'}</span>
       </div>
       ${sorted.map(e => {
-        const sz = Math.round(e.size) || e.size;
+        const sz = Math.round(e.size)||e.size;
+        const confirming = s.confirmDeleteEntry?.id === e.id;
         return `
         <div class="entry-card">
-          <div class="entry-time">${fmtDate(e.recorded_at)}</div>
+          <div class="entry-card-top">
+            <div class="entry-time">${fmtDate(e.recorded_at)}</div>
+            <button class="entry-del-btn" data-del-entry="${e.id}">🗑</button>
+          </div>
+          ${confirming ? `
+          <div class="entry-del-confirm">
+            <span>Delete this entry?</span>
+            <button class="btn-del-yes" data-confirm-del="${e.id}">Delete</button>
+            <button class="btn-del-no" data-cancel-del>Cancel</button>
+          </div>` : ''}
           <div class="entry-stats">
             <div class="entry-stat"><div class="stat-label">Consistency</div><div class="stat-value">${CONSISTENCY[e.consistency]||e.consistency}</div></div>
             <div class="entry-stat"><div class="stat-label">Color</div><div class="stat-value"><div class="color-dot" style="background:${colorHex(e.color)}"></div></div></div>
@@ -267,13 +290,13 @@
 
   function render() {
     document.getElementById('app').innerHTML =
-      s.tab === 'log' ? htmlLogTab() : htmlHistoryTab();
-    document.querySelectorAll('.tab-btn').forEach(b =>
-      b.classList.toggle('active', b.dataset.tab === s.tab));
+      s.tab==='log' ? htmlLogTab() : htmlHistoryTab();
+    document.querySelectorAll('.tab-btn').forEach(b=>
+      b.classList.toggle('active',b.dataset.tab===s.tab));
     bind();
   }
 
-  /* ── Color picker canvas ── */
+  /* ── Color picker ── */
 
   function initColorPicker() {
     const canvas = document.getElementById('color-canvas');
@@ -281,185 +304,161 @@
     const ctx = canvas.getContext('2d');
     const W = canvas.width, H = canvas.height;
 
-    // 5 color control points: center=brown, 4 corners
     const pts = [
-      { x: W/2, y: H/2, r:123, g:63,  b:0   },  // center: brown
-      { x: 0,   y: 0,   r:245, g:197, b:24  },  // TL: yellow
-      { x: W,   y: 0,   r:220, g:20,  b:60  },  // TR: red
-      { x: 0,   y: H,   r:46,  g:125, b:50  },  // BL: green
-      { x: W,   y: H,   r:58,  g:58,  b:58  },  // BR: black
+      {x:W/2, y:H/2, r:123,g:63, b:0  },  // center: brown
+      {x:0,   y:0,   r:245,g:197,b:24 },  // TL: yellow
+      {x:W,   y:0,   r:220,g:20, b:60 },  // TR: red
+      {x:0,   y:H,   r:46, g:125,b:50 },  // BL: green
+      {x:W,   y:H,   r:58, g:58, b:58 },  // BR: black
     ];
 
-    // Inverse-distance weighted blending
-    const img = ctx.createImageData(W, H);
-    for (let y = 0; y < H; y++) {
-      for (let x = 0; x < W; x++) {
-        let rW=0, gW=0, bW=0, wT=0;
-        for (const p of pts) {
-          const dx=x-p.x, dy=y-p.y, d2=dx*dx+dy*dy;
-          const w = d2 < 1 ? 1e10 : 1/d2;
-          rW+=p.r*w; gW+=p.g*w; bW+=p.b*w; wT+=w;
-        }
-        const i=(y*W+x)*4;
-        img.data[i]  =rW/wT; img.data[i+1]=gW/wT;
-        img.data[i+2]=bW/wT; img.data[i+3]=255;
+    const img = ctx.createImageData(W,H);
+    for (let y=0;y<H;y++) for (let x=0;x<W;x++) {
+      let rW=0,gW=0,bW=0,wT=0;
+      for (const p of pts) {
+        const dx=x-p.x,dy=y-p.y,d2=dx*dx+dy*dy;
+        const w=d2<1?1e10:1/d2;
+        rW+=p.r*w;gW+=p.g*w;bW+=p.b*w;wT+=w;
       }
+      const i=(y*W+x)*4;
+      img.data[i]=rW/wT;img.data[i+1]=gW/wT;img.data[i+2]=bW/wT;img.data[i+3]=255;
     }
-    ctx.putImageData(img, 0, 0);
+    ctx.putImageData(img,0,0);
 
     function pick(e) {
       e.preventDefault();
       const rect = canvas.getBoundingClientRect();
-      const touch = e.touches ? e.touches[0] : e;
-      const nx = Math.max(0, Math.min(1, (touch.clientX - rect.left) / rect.width));
-      const ny = Math.max(0, Math.min(1, (touch.clientY - rect.top) / rect.height));
-      const px = Math.round(nx * (W-1));
-      const py = Math.round(ny * (H-1));
-      const d = ctx.getImageData(px, py, 1, 1).data;
-      const hex = '#' + [d[0],d[1],d[2]].map(v=>v.toString(16).padStart(2,'0')).join('');
-      s.flow.color = hex;
-      s.flow.colorPos = { x: nx, y: ny };
-      // Update cursor + preview without re-render
-      const cursor = document.getElementById('color-cursor');
-      const preview = document.getElementById('color-preview-dot');
-      if (cursor) { cursor.style.left=(nx*100)+'%'; cursor.style.top=(ny*100)+'%'; cursor.style.background=hex; }
-      if (preview) preview.style.background = hex;
+      const touch = e.touches?e.touches[0]:e;
+      const nx = Math.max(0,Math.min(1,(touch.clientX-rect.left)/rect.width));
+      const ny = Math.max(0,Math.min(1,(touch.clientY-rect.top)/rect.height));
+      const d = ctx.getImageData(Math.round(nx*(W-1)),Math.round(ny*(H-1)),1,1).data;
+      const hex='#'+[d[0],d[1],d[2]].map(v=>v.toString(16).padStart(2,'0')).join('');
+      s.flow.color=hex; s.flow.colorPos={x:nx,y:ny};
+      const cursor=document.getElementById('color-cursor');
+      const poopBg=document.getElementById('poop-color-bg');
+      if (cursor) {cursor.style.left=(nx*100)+'%';cursor.style.top=(ny*100)+'%';cursor.style.background=hex;}
+      if (poopBg) poopBg.style.background=hex;
     }
 
-    canvas.addEventListener('mousedown', pick);
-    canvas.addEventListener('mousemove', e => { if (e.buttons) pick(e); });
-    canvas.addEventListener('touchstart', pick, { passive:false });
-    canvas.addEventListener('touchmove', pick, { passive:false });
+    canvas.addEventListener('mousedown',pick);
+    canvas.addEventListener('mousemove',e=>{if(e.buttons)pick(e);});
+    canvas.addEventListener('touchstart',pick,{passive:false});
+    canvas.addEventListener('touchmove',pick,{passive:false});
   }
 
   /* ── Confetti ── */
 
   function showConfetti() {
     const wrap = document.createElement('div');
-    wrap.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999;overflow:hidden;';
+    wrap.style.cssText='position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999;overflow:hidden;';
     document.body.appendChild(wrap);
-    for (let i = 0; i < 72; i++) {
+    for (let i=0;i<72;i++) {
       const el = document.createElement('div');
-      const drift = ((Math.random() - 0.5) * 160).toFixed(0) + 'px';
-      const dur = (2.0 + Math.random() * 1.8).toFixed(2);
-      el.style.cssText = `
-        position:absolute;
-        font-size:${(1.2 + Math.random() * 1.8).toFixed(1)}rem;
-        left:${(Math.random() * 105 - 2).toFixed(1)}%;
-        top:-80px;
-        opacity:1;
-        --drift:${drift};
-        animation:confetti-fall ${dur}s linear forwards;
-        animation-delay:${(Math.random() * 1.2).toFixed(2)}s;
-      `;
-      el.textContent = CONFETTI_EMOJIS[Math.floor(Math.random() * CONFETTI_EMOJIS.length)];
+      const drift=((Math.random()-0.5)*160).toFixed(0)+'px';
+      const dur=(2.0+Math.random()*1.8).toFixed(2);
+      el.style.cssText=`position:absolute;font-size:${(1.2+Math.random()*1.8).toFixed(1)}rem;left:${(Math.random()*105-2).toFixed(1)}%;top:-80px;opacity:1;--drift:${drift};animation:confetti-fall ${dur}s linear forwards;animation-delay:${(Math.random()*1.2).toFixed(2)}s;`;
+      el.textContent=CONFETTI_EMOJIS[Math.floor(Math.random()*CONFETTI_EMOJIS.length)];
       wrap.appendChild(el);
     }
-    setTimeout(() => wrap.remove(), 6000);
+    setTimeout(()=>wrap.remove(),6000);
   }
 
   /* ── Flush sound ── */
 
   function playFlushSound() {
     try {
-      const ctx = new (window.AudioContext || window.webkitAudioContext)();
-      const dur = 2.2;
+      const ac = new (window.AudioContext||window.webkitAudioContext)();
+      const go = () => {
+        const dur = 2.2;
+        const buf = ac.createBuffer(1, ac.sampleRate*dur, ac.sampleRate);
+        const data = buf.getChannelData(0);
+        for (let i=0;i<data.length;i++) data[i]=Math.random()*2-1;
 
-      // White noise buffer
-      const buf = ctx.createBuffer(1, ctx.sampleRate * dur, ctx.sampleRate);
-      const data = buf.getChannelData(0);
-      for (let i = 0; i < data.length; i++) data[i] = Math.random() * 2 - 1;
+        const src = ac.createBufferSource();
+        src.buffer = buf;
 
-      const src = ctx.createBufferSource();
-      src.buffer = buf;
+        const lpf = ac.createBiquadFilter();
+        lpf.type = 'lowpass';
+        lpf.frequency.setValueAtTime(2000, ac.currentTime);
+        lpf.frequency.exponentialRampToValueAtTime(80, ac.currentTime+dur);
 
-      // Lowpass filter sweeping down (whoosh)
-      const lpf = ctx.createBiquadFilter();
-      lpf.type = 'lowpass';
-      lpf.frequency.setValueAtTime(1200, ctx.currentTime);
-      lpf.frequency.exponentialRampToValueAtTime(80, ctx.currentTime + dur);
+        const gain = ac.createGain();
+        gain.gain.setValueAtTime(0.001, ac.currentTime);
+        gain.gain.linearRampToValueAtTime(0.8, ac.currentTime+0.05);
+        gain.gain.exponentialRampToValueAtTime(0.001, ac.currentTime+dur);
 
-      // Bandpass to add the swirl character
-      const bpf = ctx.createBiquadFilter();
-      bpf.type = 'bandpass';
-      bpf.frequency.setValueAtTime(400, ctx.currentTime);
-      bpf.frequency.exponentialRampToValueAtTime(150, ctx.currentTime + dur);
-      bpf.Q.value = 0.8;
-
-      // Gain envelope: quick attack, long decay
-      const gain = ctx.createGain();
-      gain.gain.setValueAtTime(0, ctx.currentTime);
-      gain.gain.linearRampToValueAtTime(0.55, ctx.currentTime + 0.08);
-      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + dur);
-
-      src.connect(lpf); lpf.connect(bpf); bpf.connect(gain); gain.connect(ctx.destination);
-      src.start();
-      src.stop(ctx.currentTime + dur);
+        src.connect(lpf); lpf.connect(gain); gain.connect(ac.destination);
+        src.start(); src.stop(ac.currentTime+dur);
+      };
+      if (ac.state==='suspended') ac.resume().then(go); else go();
     } catch(e) {}
   }
 
   /* ── Bind ── */
 
   function bind() {
-    document.querySelectorAll('.tab-btn').forEach(b =>
-      b.addEventListener('click', () => { s.tab = b.dataset.tab; render(); }));
+    document.querySelectorAll('.tab-btn').forEach(b=>
+      b.addEventListener('click',()=>{s.tab=b.dataset.tab;render();}));
 
-    document.getElementById('start-log')?.addEventListener('click', () => {
-      s.flow = { step:0, consistency:3, color:'#7B3F00', colorPos:{x:0.5,y:0.5}, ease:3, size:3 };
+    document.getElementById('start-log')?.addEventListener('click',()=>{
+      s.flow={step:0,consistency:3,color:'#7B3F00',colorPos:{x:0.5,y:0.5},ease:3,size:3};
       render();
     });
 
-    document.getElementById('btn-back')?.addEventListener('click', () => {
-      if (s.flow.step > 0) { s.flow.step--; render(); }
-      else { s.flow = null; render(); }
+    document.getElementById('btn-back')?.addEventListener('click',()=>{
+      if(s.flow.step>0){s.flow.step--;render();}
+      else{s.flow=null;render();}
     });
 
-    document.getElementById('btn-next')?.addEventListener('click', () => {
-      if (!s.flow) return;
-      if (s.flow.step < STEPS.length - 1) { s.flow.step++; render(); }
+    document.getElementById('btn-next')?.addEventListener('click',()=>{
+      if(!s.flow)return;
+      if(s.flow.step<STEPS.length-1){s.flow.step++;render();}
       else saveEntry();
     });
 
-    // Consistency slider
-    const slC = document.getElementById('sl-c');
-    if (slC) slC.addEventListener('input', () => {
-      s.flow.consistency = parseFloat(slC.value);
-      const r = Math.round(s.flow.consistency);
-      const lEl = document.getElementById('sl-c-lbl');
-      const nEl = document.getElementById('sl-c-num');
-      if (lEl) lEl.textContent = CONSISTENCY[r];
-      if (nEl) nEl.textContent = r + ' / 5';
-      slC.style.background = sliderBg(s.flow.consistency);
+    // Sliders
+    const slC=document.getElementById('sl-c');
+    if(slC)slC.addEventListener('input',()=>{
+      s.flow.consistency=parseFloat(slC.value);
+      const r=Math.round(s.flow.consistency);
+      const lEl=document.getElementById('sl-c-lbl'),nEl=document.getElementById('sl-c-num');
+      if(lEl)lEl.textContent=CONSISTENCY[r];if(nEl)nEl.textContent=r+' / 5';
+      slC.style.background=sliderBg(s.flow.consistency);
     });
 
-    // Ease slider
-    const slE = document.getElementById('sl-e');
-    if (slE) slE.addEventListener('input', () => {
-      s.flow.ease = parseFloat(slE.value);
-      const r = Math.round(s.flow.ease);
-      const lEl = document.getElementById('sl-e-lbl');
-      const nEl = document.getElementById('sl-e-num');
-      if (lEl) lEl.textContent = EASE[r];
-      if (nEl) nEl.textContent = r + ' / 5';
-      slE.style.background = sliderBg(s.flow.ease);
+    const slE=document.getElementById('sl-e');
+    if(slE)slE.addEventListener('input',()=>{
+      s.flow.ease=parseFloat(slE.value);
+      const r=Math.round(s.flow.ease);
+      const lEl=document.getElementById('sl-e-lbl'),nEl=document.getElementById('sl-e-num');
+      if(lEl)lEl.textContent=EASE[r];if(nEl)nEl.textContent=r+' / 5';
+      slE.style.background=sliderBg(s.flow.ease);
     });
 
-    // Size slider — continuous
-    const slS = document.getElementById('sl-s');
-    if (slS) slS.addEventListener('input', () => {
-      s.flow.size = parseFloat(slS.value);
-      const rounded = Math.round(s.flow.size);
-      const poop = document.getElementById('poop-emoji');
-      const lEl = document.getElementById('sl-s-lbl');
-      const nEl = document.getElementById('sl-s-num');
-      if (poop) poop.style.fontSize = poopFontSize(s.flow.size) + 'rem';
-      if (lEl) lEl.textContent = SIZE[rounded];
-      if (nEl) nEl.textContent = rounded + ' / 5';
-      slS.style.background = sliderBg(s.flow.size);
+    const slS=document.getElementById('sl-s');
+    if(slS)slS.addEventListener('input',()=>{
+      s.flow.size=parseFloat(slS.value);
+      const rounded=Math.round(s.flow.size);
+      const poop=document.getElementById('poop-emoji');
+      const lEl=document.getElementById('sl-s-lbl'),nEl=document.getElementById('sl-s-num');
+      if(poop)poop.style.fontSize=poopFontSize(s.flow.size)+'rem';
+      if(lEl)lEl.textContent=SIZE[rounded];if(nEl)nEl.textContent=rounded+' / 5';
+      slS.style.background=sliderBg(s.flow.size);
     });
 
-    // Color picker init (after DOM is ready)
-    if (document.getElementById('color-canvas')) initColorPicker();
+    if(document.getElementById('color-canvas'))initColorPicker();
+
+    // History delete
+    document.querySelectorAll('[data-del-entry]').forEach(b=>b.addEventListener('click',()=>{
+      const entry=s.entries.find(e=>e.id===b.dataset.delEntry);
+      if(entry){s.confirmDeleteEntry=entry;render();}
+    }));
+    document.querySelectorAll('[data-confirm-del]').forEach(b=>b.addEventListener('click',()=>{
+      deleteEntry(b.dataset.confirmDel);
+    }));
+    document.querySelectorAll('[data-cancel-del]').forEach(b=>b.addEventListener('click',()=>{
+      s.confirmDeleteEntry=null;render();
+    }));
   }
 
   /* ── Data ── */
@@ -474,22 +473,28 @@
       size: Math.round(s.flow.size),
     };
     s.entries.push(entry);
-    s.flow = null;
-    s.tab = 'history';
+    s.flow=null; s.tab='history';
     render();
     showConfetti();
     playFlushSound();
     await db.from('poop_entries').insert(entry);
   }
 
+  async function deleteEntry(id) {
+    s.entries=s.entries.filter(e=>e.id!==id);
+    s.confirmDeleteEntry=null;
+    render();
+    await db.from('poop_entries').delete().eq('id',id);
+  }
+
   async function loadData() {
-    const { data } = await db.from('poop_entries').select('*').order('recorded_at', { ascending: false });
-    if (data) s.entries = data;
-    s.loading = false;
+    const {data}=await db.from('poop_entries').select('*').order('recorded_at',{ascending:false});
+    if(data)s.entries=data;
+    s.loading=false;
     render();
   }
 
-  if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js');
+  if('serviceWorker' in navigator)navigator.serviceWorker.register('./sw.js');
   render();
   loadData();
 </script>
