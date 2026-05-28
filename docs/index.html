@@ -65,11 +65,8 @@
     /* 2D Color picker */
     .color-poop-preview { display: flex; justify-content: center; margin-bottom: 14px; }
     /* Poop silhouette */
-    .poop-silhouette { display: flex; flex-direction: column; align-items: center; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.2)); transition: color 0.08s; }
-    .ps-1 { width: 22px; height: 26px; background: currentColor; border-radius: 50% 50% 35% 35%; }
-    .ps-2 { width: 36px; height: 24px; background: currentColor; border-radius: 50% 50% 25% 25%; margin-top: -7px; }
-    .ps-3 { width: 52px; height: 24px; background: currentColor; border-radius: 50% 50% 20% 20%; margin-top: -7px; }
-    .ps-base { width: 64px; height: 22px; background: currentColor; border-radius: 35% 35% 50% 50%; margin-top: -9px; }
+    .poop-silhouette { display: flex; justify-content: center; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.2)); transition: color 0.08s; }
+    .poop-silhouette svg { width: 90px; height: auto; }
     .color-picker-wrap { position: relative; width: 100%; margin-bottom: 28px; border-radius: 16px; overflow: hidden; }
     .color-picker-wrap canvas { width: 100%; aspect-ratio: 5/3; display: block; touch-action: none; cursor: crosshair; }
     .color-cursor { position: absolute; width: 28px; height: 28px; border-radius: 50%; border: 3px solid #fff; transform: translate(-50%, -50%); pointer-events: none; box-shadow: 0 2px 10px rgba(0,0,0,0.45); }
@@ -128,6 +125,8 @@
   const STEPS       = ['consistency','color','ease','size'];
   const STEP_EMOJI  = { consistency:'💧', color:'🎨', ease:'😌', size:'📏' };
   const CONFETTI_EMOJIS = ['🚽','💩','🧻','🪠','💨'];
+
+  const POOP_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 475.198 448.513"><g fill="currentColor"><path d="M93.803,447.9c-25.27,1.085-55.91-3.554-75.092-19.846C-4.324,408.489-3.802,382.758,7.96,356.109c11.299-25.601,35.68-40.278,64.594-39.622C57.751,301.1,53.12,281.233,58.027,261.422c4.068-16.423,13.024-30.325,27.286-39.582c9.396-5.547,19.261-10.073,30.929-10.91c-15.867,30.625-11.617,70.369,12.391,93.118c16.603,15.733,40.673,17.328,58.567,2.341c31.045-26.003,32.933-82.549,2.633-111.031c-14.488-13.619-35.032-16.631-51.967-6.846c-8.564,4.948-14.871,11.6-19.933,20.203c-24.794-33.31-3.818-69.326,25.757-92.263c8.775-6.806,19.81-9.883,29.833-13.179c-16.686-19.462-1.658-47.62,13.595-66.155c1.039-9.724,1.767-20.984-3.176-28.079c-2.322-3.334-0.382-8.028,3.624-8.707c10.211-1.732,24.037,3.624,33.452,8.909c18.18,10.206,35.07,21.29,50.755,35.053c26.482,23.236,49.389,54.477,36.966,90.383c14.64-1.975,27.173,2.709,38.044,11.365c8.91,7.672,15.756,17.088,21.037,27.713c2.697,14.193,0.914,27.947-4.173,41.695c22.412-0.737,41.04,10.833,49.528,30.879c7.801,18.422,10.778,44.754,1.755,63.12c14.332,6.828,28.08,14.824,39.593,26.049c23.818,23.222,26.656,51.55,10.578,80.427c-6.145,11.037-14.341,19.381-26.519,23.591c-8.548,2.955-17.377,5.524-26.626,6.192l-38.776,2.804l-49.945-0.025l-72.837-2.838l-68.786-2.873h0c-17.653-1.089-35.375-0.531-52.906,1.806C117.17,446.12,105.622,447.392,93.803,447.9z M346.666,304.835c29.003-26.562,30.238-78.385,2.771-107.599c-7.804-8.301-17.961-13.494-29.452-14.428c-16.367-1.331-31.136,7.155-40.891,20.433c-21.823,29.703-18.753,76.974,7.055,100.912C303.445,320.194,328.69,321.299,346.666,304.835z M316.377,357.782c6.28-5.964,10.734-12.769,7.151-18.146c-0.948-1.422-4.041-3.1-6.062-3.096l-29.258,0.054l-122.532-0.058c-5.867-0.003-11.632,1.532-16.721,4.451c0,0,9.992-11.788,0,0c-9.992,11.788,35.616,54.004,95.175,49.593C271.657,388.539,296.435,376.719,316.377,357.782z"/><path d="M186.595,250.28c-0.267,19.285-10.969,38.743-27.479,38.498c-6.365-0.094-12.893-3.186-17.442-8.974c-13.411-17.062-13.412-43.04-0.064-60.169c4.36-5.595,10.644-8.657,16.666-9.02C175.2,209.593,186.874,230.059,186.595,250.28z"/><path d="M334.961,279.033c-4.764,6.409-11.523,9.727-18.156,9.723c-6.675-0.004-13.362-3.472-17.903-9.46c-12.859-16.955-12.874-42.135-0.055-59.116c4.542-6.017,11.275-9.538,17.944-9.552c6.757-0.014,13.444,3.456,18.001,9.484C347.477,236.894,347.775,261.795,334.961,279.033z"/></g></svg>`;
 
   const s = { tab:'log', entries:[], loading:true, flow:null, confirmDeleteEntry:null };
 
@@ -200,9 +199,7 @@
         </div>
         <div class="flow-sub">Drag to find the perfect match</div>
         <div class="color-poop-preview">
-          <div class="poop-silhouette" id="poop-silhouette" style="color:${hex}">
-            <div class="ps-1"></div><div class="ps-2"></div><div class="ps-3"></div><div class="ps-base"></div>
-          </div>
+          <div class="poop-silhouette" id="poop-silhouette" style="color:${hex}">${POOP_SVG}</div>
         </div>
         <div class="color-picker-wrap" id="cp-wrap">
           <canvas id="color-canvas" width="300" height="180"></canvas>
@@ -374,30 +371,8 @@
 
   function playFlushSound() {
     try {
-      const ac = new (window.AudioContext||window.webkitAudioContext)();
-      const go = () => {
-        const dur = 2.2;
-        const buf = ac.createBuffer(1, ac.sampleRate*dur, ac.sampleRate);
-        const data = buf.getChannelData(0);
-        for (let i=0;i<data.length;i++) data[i]=Math.random()*2-1;
-
-        const src = ac.createBufferSource();
-        src.buffer = buf;
-
-        const lpf = ac.createBiquadFilter();
-        lpf.type = 'lowpass';
-        lpf.frequency.setValueAtTime(2000, ac.currentTime);
-        lpf.frequency.exponentialRampToValueAtTime(80, ac.currentTime+dur);
-
-        const gain = ac.createGain();
-        gain.gain.setValueAtTime(0.001, ac.currentTime);
-        gain.gain.linearRampToValueAtTime(0.8, ac.currentTime+0.05);
-        gain.gain.exponentialRampToValueAtTime(0.001, ac.currentTime+dur);
-
-        src.connect(lpf); lpf.connect(gain); gain.connect(ac.destination);
-        src.start(); src.stop(ac.currentTime+dur);
-      };
-      if (ac.state==='suspended') ac.resume().then(go); else go();
+      const audio = new Audio('./flush.mp3');
+      audio.play();
     } catch(e) {}
   }
 
