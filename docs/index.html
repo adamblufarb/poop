@@ -132,9 +132,9 @@
   const db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
   const CONSISTENCY = { 1:'Watery', 2:'Loose', 3:'Smooth', 4:'Firm', 5:'Hard' };
-  const EASE        = { 1:'Easy',   2:'Mild',  3:'Moderate', 4:'Tough', 5:'Difficult' };
+  const EASE        = { 1:'Too Easy', 2:'Easy', 3:'Moderate', 4:'Tough', 5:'Difficult' };
   const SIZE        = { 1:'Tiny',   2:'Small', 3:'Medium',   4:'Large', 5:'Huge' };
-  const STEPS       = ['consistency','color','ease','size'];
+  const STEPS       = ['ease','consistency','color','size'];
   const STEP_EMOJI  = { consistency:'💧', color:'🎨', ease:'😌', size:'📏' };
   const CONFETTI_EMOJIS = ['🚽','💩','🧻','🪠','💨'];
 
@@ -232,7 +232,7 @@
             <div class="slider-num" id="sl-e-num">${rv} / 5</div>
           </div>
           <input type="range" min="1" max="5" step="any" value="${v}" id="sl-e" style="background:${sliderBg(v)}">
-          <div class="slider-ends"><span class="slider-end">😌</span><span class="slider-end">😡</span></div>
+          <div class="slider-ends"><span class="slider-end">😳</span><span class="slider-end">😡</span></div>
         </div>`;
 
     } else if (name === 'size') {
